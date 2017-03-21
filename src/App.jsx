@@ -52,31 +52,10 @@ export default class App extends React.Component {
           notification.alert(ref.errors[0]);
       }else{
           /*antlr4.tree.ParseTreeWalker.DEFAULT.walk(run, tree);
-          console.log(run.codigo);*/
-//          eval(run.codigo.join(""));
+          console.log(run.codigo);
+          eval(run.codigo.join(""));*/
       }
-      //alert(yo.state.codigo);
-      //alert(printer.texto);
-      /*window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, gotFile, fail);
-      function fail(e) {
-        console.log("FileSystem Error");
-        console.dir(e);
-      };
 
-        function gotFile(dir) {
-
-            dir.getFile("jscode.log", {create:true}, function(file) {
-                var logOb = file;
-                var log = " "+printer.texto;
-                logOb.createWriter(function(fileWriter) {
-                    fileWriter.seek(fileWriter.length);
-                    var blob = new Blob([log], {type:'text/plain'});
-                    fileWriter.write(blob);
-                }, function(e){alert(e);});
-            });
-
-      };*/
-    //notification.alert('This is an Onsen UI alert notification test.'+tree.toStringTree(parser));
   }
 
   renderToolbar() {

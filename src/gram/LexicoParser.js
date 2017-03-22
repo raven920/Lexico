@@ -5,7 +5,7 @@ var LexicoListener = require('./LexicoListener').LexicoListener;
 var grammarFileName = "Lexico.g4";
 
 var serializedATN = ["\u0003\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd",
-    "\u0003)\u00a7\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
+    "\u0003%\u00a7\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
     "\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007\u0004",
     "\b\t\b\u0004\t\t\t\u0004\n\t\n\u0004\u000b\t\u000b\u0003\u0002\u0003",
     "\u0002\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0004\u0003\u0004\u0007",
@@ -61,21 +61,21 @@ var serializedATN = ["\u0003\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd",
     "\u0002E$\u0003\u0002\u0002\u0002E%\u0003\u0002\u0002\u0002E;\u0003\u0002",
     "\u0002\u0002E@\u0003\u0002\u0002\u0002EB\u0003\u0002\u0002\u0002ED\u0003",
     "\u0002\u0002\u0002F\t\u0003\u0002\u0002\u0002GH\u0007\u000e\u0002\u0002",
-    "HI\u0007\u000f\u0002\u0002IJ\u0007$\u0002\u0002JK\u0007\u0006\u0002",
-    "\u0002KL\t\u0002\u0002\u0002L^\u0007$\u0002\u0002MN\u0007\u0012\u0002",
-    "\u0002NO\u0007$\u0002\u0002OP\u0007\u0013\u0002\u0002PQ\u0005\u0010",
-    "\t\u0002QR\u0007\u0014\u0002\u0002RS\u0007$\u0002\u0002S^\u0003\u0002",
+    "HI\u0007\u000f\u0002\u0002IJ\u0007 \u0002\u0002JK\u0007\u0006\u0002",
+    "\u0002KL\t\u0002\u0002\u0002L^\u0007 \u0002\u0002MN\u0007\u0012\u0002",
+    "\u0002NO\u0007 \u0002\u0002OP\u0007\u0013\u0002\u0002PQ\u0005\u0010",
+    "\t\u0002QR\u0007\u0014\u0002\u0002RS\u0007 \u0002\u0002S^\u0003\u0002",
     "\u0002\u0002TU\u0007\u0012\u0002\u0002UX\u0005\u0012\n\u0002VW\u0007",
     "\u0013\u0002\u0002WY\u0005\u0010\t\u0002XV\u0003\u0002\u0002\u0002X",
     "Y\u0003\u0002\u0002\u0002YZ\u0003\u0002\u0002\u0002Z[\u0007\u0014\u0002",
-    "\u0002[\\\u0007$\u0002\u0002\\^\u0003\u0002\u0002\u0002]G\u0003\u0002",
+    "\u0002[\\\u0007 \u0002\u0002\\^\u0003\u0002\u0002\u0002]G\u0003\u0002",
     "\u0002\u0002]M\u0003\u0002\u0002\u0002]T\u0003\u0002\u0002\u0002^\u000b",
-    "\u0003\u0002\u0002\u0002_`\b\u0007\u0001\u0002`a\u0007$\u0002\u0002",
+    "\u0003\u0002\u0002\u0002_`\b\u0007\u0001\u0002`a\u0007 \u0002\u0002",
     "ac\u0007\u0015\u0002\u0002bd\u0005\u000e\b\u0002cb\u0003\u0002\u0002",
     "\u0002cd\u0003\u0002\u0002\u0002de\u0003\u0002\u0002\u0002es\u0007\u0016",
     "\u0002\u0002fs\u0005\u0012\n\u0002gh\u0007\u0017\u0002\u0002hs\u0005",
-    "\f\u0007\fij\u0007\u0018\u0002\u0002js\u0005\f\u0007\u000bks\u0007$",
-    "\u0002\u0002ls\u0007%\u0002\u0002ms\u0007&\u0002\u0002no\u0007\u0015",
+    "\f\u0007\fij\u0007\u0018\u0002\u0002js\u0005\f\u0007\u000bks\u0007 ",
+    "\u0002\u0002ls\u0007!\u0002\u0002ms\u0007\"\u0002\u0002no\u0007\u0015",
     "\u0002\u0002op\u0005\f\u0007\u0002pq\u0007\u0016\u0002\u0002qs\u0003",
     "\u0002\u0002\u0002r_\u0003\u0002\u0002\u0002rf\u0003\u0002\u0002\u0002",
     "rg\u0003\u0002\u0002\u0002ri\u0003\u0002\u0002\u0002rk\u0003\u0002\u0002",
@@ -98,14 +98,14 @@ var serializedATN = ["\u0003\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd",
     "\u0090\u008e\u0003\u0002\u0002\u0002\u0091\u0094\u0003\u0002\u0002\u0002",
     "\u0092\u0090\u0003\u0002\u0002\u0002\u0092\u0093\u0003\u0002\u0002\u0002",
     "\u0093\u0011\u0003\u0002\u0002\u0002\u0094\u0092\u0003\u0002\u0002\u0002",
-    "\u0095\u0096\u0007$\u0002\u0002\u0096\u0097\u0007\u001e\u0002\u0002",
+    "\u0095\u0096\u0007 \u0002\u0002\u0096\u0097\u0007\u001e\u0002\u0002",
     "\u0097\u0098\u0005\f\u0007\u0002\u0098\u009f\u0007\u001f\u0002\u0002",
     "\u0099\u009a\u0007\u001e\u0002\u0002\u009a\u009b\u0005\f\u0007\u0002",
     "\u009b\u009c\u0007\u001f\u0002\u0002\u009c\u009e\u0003\u0002\u0002\u0002",
     "\u009d\u0099\u0003\u0002\u0002\u0002\u009e\u00a1\u0003\u0002\u0002\u0002",
     "\u009f\u009d\u0003\u0002\u0002\u0002\u009f\u00a0\u0003\u0002\u0002\u0002",
     "\u00a0\u0013\u0003\u0002\u0002\u0002\u00a1\u009f\u0003\u0002\u0002\u0002",
-    "\u00a2\u00a5\u0007$\u0002\u0002\u00a3\u00a5\u0005\u0012\n\u0002\u00a4",
+    "\u00a2\u00a5\u0007 \u0002\u0002\u00a3\u00a5\u0005\u0012\n\u0002\u00a4",
     "\u00a2\u0003\u0002\u0002\u0002\u00a4\u00a3\u0003\u0002\u0002\u0002\u00a5",
     "\u0015\u0003\u0002\u0002\u0002\u0013\u001f+0279EX]cr\u0080\u0082\u008a",
     "\u0092\u009f\u00a4"].join("");
@@ -126,8 +126,8 @@ var literalNames = [ null, "'tarea'", "'{'", "'}'", "'es'", "'?'", "'si:'",
 var symbolicNames = [ null, null, null, null, null, null, null, null, null,
                       null, null, null, null, null, null, null, null, null,
                       null, null, null, null, null, null, null, null, null,
-                      null, null, null, "EL", "OBJETO", "ES", "UNA", "ID",
-                      "INT", "STRING", "COMMENT", "LINE_COMMENT", "WS" ];
+                      null, null, null, "ID", "INT", "STRING", "COMMENT",
+                      "LINE_COMMENT", "WS" ];
 
 var ruleNames =  [ "prog", "tarea", "bloque", "sent", "declaracionVar",
                    "expr", "listaExpr", "listaIdOArr", "arreglo", "idOArr" ];
@@ -180,16 +180,12 @@ LexicoParser.T__25 = 26;
 LexicoParser.T__26 = 27;
 LexicoParser.T__27 = 28;
 LexicoParser.T__28 = 29;
-LexicoParser.EL = 30;
-LexicoParser.OBJETO = 31;
-LexicoParser.ES = 32;
-LexicoParser.UNA = 33;
-LexicoParser.ID = 34;
-LexicoParser.INT = 35;
-LexicoParser.STRING = 36;
-LexicoParser.COMMENT = 37;
-LexicoParser.LINE_COMMENT = 38;
-LexicoParser.WS = 39;
+LexicoParser.ID = 30;
+LexicoParser.INT = 31;
+LexicoParser.STRING = 32;
+LexicoParser.COMMENT = 33;
+LexicoParser.LINE_COMMENT = 34;
+LexicoParser.WS = 35;
 
 LexicoParser.RULE_prog = 0;
 LexicoParser.RULE_tarea = 1;
@@ -378,7 +374,7 @@ LexicoParser.prototype.bloque = function() {
         this.state = 29;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
-        while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << LexicoParser.T__3) | (1 << LexicoParser.T__7) | (1 << LexicoParser.T__9) | (1 << LexicoParser.T__10) | (1 << LexicoParser.T__11) | (1 << LexicoParser.T__15) | (1 << LexicoParser.T__18) | (1 << LexicoParser.T__20) | (1 << LexicoParser.T__21))) !== 0) || ((((_la - 34)) & ~0x1f) == 0 && ((1 << (_la - 34)) & ((1 << (LexicoParser.ID - 34)) | (1 << (LexicoParser.INT - 34)) | (1 << (LexicoParser.STRING - 34)))) !== 0)) {
+        while(((((_la - 4)) & ~0x1f) == 0 && ((1 << (_la - 4)) & ((1 << (LexicoParser.T__3 - 4)) | (1 << (LexicoParser.T__7 - 4)) | (1 << (LexicoParser.T__9 - 4)) | (1 << (LexicoParser.T__10 - 4)) | (1 << (LexicoParser.T__11 - 4)) | (1 << (LexicoParser.T__15 - 4)) | (1 << (LexicoParser.T__18 - 4)) | (1 << (LexicoParser.T__20 - 4)) | (1 << (LexicoParser.T__21 - 4)) | (1 << (LexicoParser.ID - 4)) | (1 << (LexicoParser.INT - 4)) | (1 << (LexicoParser.STRING - 4)))) !== 0)) {
             this.state = 26;
             this.sent();
             this.state = 31;

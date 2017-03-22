@@ -14,3 +14,4 @@ node_modules
 /www/app.bundle.js
 /platforms/android/.gradle/
 /platforms/android/android.json
+!/parche/node_modules

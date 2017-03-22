@@ -38,6 +38,15 @@ $ git clone https://github.com/raven920/Lexico.git
 $ cd Lexico
 $ npm install
 ```
+Antes de poder ejecutar, se hace necesario aplicar un parche que permitirá a Antlr4 correr correctamente en el ambiente de Cordova y Onsen, este parche tambien integra las definiciones del lenguaje Léxico al editor *Ace*. 
+
+**Nota:** Debido a que en Windows no existe el comando *patch* [por defecto](http://gnuwin32.sourceforge.net/packages/patch.htm), se incluyó una copia de los ficheros modificados por el parche. Solo deberá copiar todos los contenidos del subdirectorio *parche* al directorio raiz del proyecto. 
+
+En caso de estar en un entorno que cuente con el comando patch solo debe ejecutar.
+
+```sh
+$ patch -p0 < parche/antlr4-ace.patch
+```
 
 Ya está todo listo para probar el proyecto. Puede hacerlo en el navegador ejecutando
 ```sh

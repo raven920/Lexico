@@ -13,3 +13,4 @@ node_modules
 /www/assets/
 /www/app.bundle.js
 /platforms/android/.gradle/
+/platforms/android/android.json

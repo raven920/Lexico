@@ -48,10 +48,16 @@ También es posible probar el proyecto en un emulador, smartphone o tableta usan
 
 ##### Construir el proyecto
 
-Si desea construir el proyecto para Android, debe ejecutar
+Si desea construir el proyecto para Android, primero se debe ejecutar el [transpiler](https://onsen.io/blog/monaca-cli-transpile/) que se encarga de transformar el código del intérprete de Léxico en un código que Cordova pueda ejecutar. Normalmente esta operación debería ser llevada a cabo automáticamente por *Monaca* al construir el proyecto, pero se sugiere hacerlo de manera manual usando la siguiente instrucción:
 ```sh
-$ monaca build
+$ monaca transpile
 ```
+
+Una vez se genera el código con el transpiler, se puede construir el instalador para Android ejecutando:
+```sh
+$ monaca build android
+```
+
 Una vez se construya el proyecto, encontrará el APK en la ruta:
 ```
 Lexico/platforms/android/build/outputs/apk

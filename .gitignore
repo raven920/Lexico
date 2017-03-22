@@ -7,3 +7,8 @@ node_modules
 /platforms/android/res/mipmap-ldpi/icon.png
 /platforms/android/res/mipmap-hdpi/icon.png
 /platforms/android/assets/
+/www/vendor.bundle.js
+/www/index.html
+/www/app.css
+/www/assets/
+/www/app.bundle.js

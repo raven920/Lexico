@@ -12,3 +12,4 @@ node_modules
 /www/app.css
 /www/assets/
 /www/app.bundle.js
+/platforms/android/.gradle/

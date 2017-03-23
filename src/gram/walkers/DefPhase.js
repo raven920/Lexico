@@ -29,8 +29,14 @@ DefPhase.prototype.scopes = new HashTable();
 
 DefPhase.prototype.defineVar = function(nameToken,typeToken){
     if(this.currentScope.exists(nameToken.getText())){
-        this.errors.push("linea "+nameToken.getSymbol().line+":"+nameToken.getSymbol().column+ " previamente definido <"+nameToken.getSymbol().text+">");
-        console.error("simbolo previamente definido"+nameToken.getText());
+        var sim = nameToken.getSymbol();
+        this.errors.push({
+            problema: "Error semántico",
+            simbolo: sim,
+            linea: sim.line,
+            columna: sim.column,
+            recomendacion: "'"+nameToken.getText()+"' fue previamente definido."
+        });
         return;
     }
     var symVar = new Symbol({"name": nameToken.getText(),
@@ -82,8 +88,6 @@ DefPhase.prototype.exitTarea = function(ctx){
     this.currentScope = this.currentScope.enclosingScope;
 }
 
-
-
 DefPhase.prototype.exitDeclaracionUnaVar = function(ctx){
     this.defineVar(ctx.ID(0), ctx.ID(1));
 }
@@ -118,7 +122,6 @@ DefPhase.prototype.exitArreglo = function(ctx) {
 DefPhase.prototype.exitDeclaracionVariasVar = function(ctx){
     this.defineVars( this.idStack.pop() ,ctx.ID(1));
 }
-
 
 DefPhase.prototype.exitDeclaracionArreglos = function(ctx) {
     this.defineVars( this.idStack.pop() ,ctx.ID(0));

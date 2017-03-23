@@ -17,16 +17,25 @@ RefPhase.prototype.constructor = RefPhase;
 
 RefPhase.prototype.checkScope = function(idToken){
     var name = idToken.getSymbol();
+    var err = {
+            problema: "Error semántico",
+            simbolo: name,
+            linea: name.line,
+            columna: name.column
+    };
 
     var variable = this.currentScope.resolve(name.text);
     if(variable == null){
-        this.errors.push("linea "+name.line+":"+name.column+ " no fue declarada: <"+name.text+">");
+        err["recomendacion"] = "'"+idToken.getText()+"' no ha sido declarado.";
     }else if(variable instanceof FunctionSymbol){
-        this.errors.push("linea "+name.line+":"+name.column+" <" +name.text+"> no es una variable");
+        err["recomendacion"] = "'"+idToken.getText()+"' no es una variable.";
     }else if(variable.scope == this.currentScope){
         if(name.line <= variable.line && name.column < variable.column){
-            this.errors.push("linea "+name.line+":"+name.column+" <" +name.text+"> léxico no puede leer el futuro, declare primero la variable");
+            err["recomendacion"] = "'"+idToken.getText()+"' debe ser declarada primero.";
         }
+    }
+    if(err["recomendacion"] != undefined){
+        this.errors.push(err);
     }
 }
 

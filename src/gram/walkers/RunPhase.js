@@ -36,21 +36,6 @@ RunPhase.prototype.exitDeclaracionUnaVar = function(ctx){
     this.codigo += this.idn + "var " + ctx.ID(0).getText() + ";\n";
 }
 
-/*RunPhase.prototype.exitUsoVar = function(ctx) {
-    var name = ctx.ID(0).getSymbol();
-
-    var variable = this.currentScope.resolve(name.text);
-    if(variable == null){
-        this.errors.push("linea "+name.line+":"+name.column+ " no fue declarada: <"+name.text+">");
-    }else if(variable instanceof FunctionSymbol){
-        this.errors.push("linea "+name.line+":"+name.column+" <" +name.text+"> no es una variable");
-    }else if(variable.scope == this.currentScope){
-        if(name.line <= variable.line && name.column < variable.column){
-            this.errors.push("linea "+name.line+":"+name.column+" <" +name.text+"> léxico no puede leer el futuro, declare primero la variable");
-        }
-    }
-}*/
-
 RunPhase.prototype.exitDeclaracionVariasVar = function(ctx){
     var i;
     var l = this.idStack.pop();

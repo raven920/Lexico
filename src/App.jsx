@@ -1,61 +1,57 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Page, Button, Toolbar, Input, Row, Col, ToolbarButton, Icon} from 'react-onsenui';
 import {notification} from 'onsenui';
-import antlr4 from 'antlr4/index'
 
 import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/lexico';
 import 'brace/theme/xcode';
-
-
-var LexicoLexer = require('gram/LexicoLexer.js');
-var LexicoParser = require('gram/LexicoParser.js');
-var LexicoListener = require('gram/LexicoListener.js');
-
-var DefPhase = require('gram/walkers/DefPhase.js').DefPhase;
-var RefPhase = require('gram/walkers/RefPhase.js').RefPhase;
-var RunPhase = require('gram/walkers/RunPhase.js').RunPhase;
-
-
+var InterpreteLexico = require('gram/InterpreteLexico.js').InterpreteLexico;
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {codigo: 'tarea {\n    el objeto x es un caracter\n    copie 2 en x\n    muestre x\n}'};
+    this.state = {codigo: 'tarea {\n    el objeto x es un caracter\n    copie 2 en x\n    muestre x\n}',
+                  errores: [], marcadores: []};
   }
 
   handleCodigoChange(e) {
     this.setState({codigo: e});
   }
 
-  alertPopup() {
-
-      var chars = new antlr4.InputStream(this.state.codigo);
-      var lexer = new LexicoLexer.LexicoLexer(chars);
-      var tokens  = new antlr4.CommonTokenStream(lexer);
-      var parser = new LexicoParser.LexicoParser(tokens);
-      parser.buildParseTrees = true;
-      var tree = parser.prog();
-      var def = new DefPhase();
-      var run = new RunPhase();
-      //var printer = new LexicoListener.LexicoListener();
-      antlr4.tree.ParseTreeWalker.DEFAULT.walk(def, tree);
-
-
-      var ref = new RefPhase(def.globals, def.scopes);
-      antlr4.tree.ParseTreeWalker.DEFAULT.walk(ref, tree);
-
-      if(ref.errors.length != 0){
-          notification.alert(ref.errors[0]);
-      }else{
-          /*antlr4.tree.ParseTreeWalker.DEFAULT.walk(run, tree);
-          console.log(run.codigo);
-          eval(run.codigo.join(""));*/
+  mostrarErrores(errors){
+      var erroresLineaEd = [];
+      var erroresResaltadoEd = [];
+      for(var err of errors){
+          erroresLineaEd.push(
+              {row: err['linea']-1,
+               column: err['columna'],
+               type:'error',
+               text: err['recomendacion']});
+          erroresResaltadoEd.push(
+              {startRow: err['simbolo'].line-1,
+               startCol: err['simbolo'].column,
+               endRow: err['simbolo'].line-1,
+               endCol: err['simbolo'].column+err['simbolo'].text.length,
+               className: 'ace_highlight-marker', type: 'text' });
       }
+      this.setState({errores: erroresLineaEd, marcadores: erroresResaltadoEd});
+  }
 
+  ejecutar() {
+      var interprete = new InterpreteLexico();
+      interprete.construirAnalizador(this.state.codigo);
+      if(   !interprete.analizarSintaxis()
+         || !interprete.analizarSemantica()
+         //|| !interprete.transformar()
+        ){
+          this.mostrarErrores(interprete.errors);
+          return;
+      }
+      this.setState({errores: [], marcadores: []});
   }
 
   renderToolbar() {
@@ -64,7 +60,7 @@ export default class App extends React.Component {
       <Toolbar>
         <div className='center'>Léxico</div>
         <div className='right'>
-            <ToolbarButton onClick={this.alertPopup.bind(this)}>
+            <ToolbarButton onClick={this.ejecutar.bind(this)}>
                 Correr <Icon icon='ion-play, material:md-play'></Icon>
             </ToolbarButton>
         </div>
@@ -74,6 +70,7 @@ export default class App extends React.Component {
 
   render() {
     return (
+
         <Page  renderToolbar={this.renderToolbar.bind(this)}>
             <div height="100vh">
                 <AceEditor
@@ -85,6 +82,8 @@ export default class App extends React.Component {
                     onChange={this.handleCodigoChange.bind(this)}
                     name="UNIQUE_ID_OF_DIV"
                     wrapEnabled={true}
+                    annotations={this.state.errores}
+                    markers={this.state.marcadores}
                     value={this.state.codigo}
                   />
             </div>

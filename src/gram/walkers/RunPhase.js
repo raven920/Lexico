@@ -3,6 +3,7 @@ var FunctionSymbol = require('../scope/FunctionSymbol.js').FunctionSymbol;
 
 function RunPhase(){
     LexicoListener.call(this);
+    this.errors = [];
     this.codigo = "";
     this.idStack = [];
     this.exprStack = [];

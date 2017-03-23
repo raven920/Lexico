@@ -83,12 +83,12 @@ LexicoListener.prototype.exitMuestre = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#SentExpr.
-LexicoListener.prototype.enterSentExpr = function(ctx) {
+// Enter a parse tree produced by LexicoParser#llamadaFuncion.
+LexicoListener.prototype.enterLlamadaFuncion = function(ctx) {
 };
 
-// Exit a parse tree produced by LexicoParser#SentExpr.
-LexicoListener.prototype.exitSentExpr = function(ctx) {
+// Exit a parse tree produced by LexicoParser#llamadaFuncion.
+LexicoListener.prototype.exitLlamadaFuncion = function(ctx) {
 };
 
 

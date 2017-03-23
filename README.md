@@ -2,8 +2,6 @@
 
 *Léxico para Android* es la implementación de un intérprete del lenguaje de programación [Léxico] en dispositivos móviles con sistema operativo Android. Léxico es un lenguaje de programación didáctico en español que facilita el aprendizaje y la enseñanza de la programación. 
 
-Este proyecto forma parte del trabajo de grado llevado a cabo por Christian Delany y dirigido por el Profesor de la Universidad de Antioquia Fabián Ríos C., quien ideó y estuvo en cabeza de la implementación de Léxico desde sus orígenes en los años ochenta.
-
 ###  Acerca del desarrollo
 
 En la actualidad, el proyecto está en una etapa temprana de desarrollo y está siendo activamente desarrollado. Para la primera versión se prevee tener la posibilidad de desarrollar algoritmos usando tipos de datos primitivos y estructuras de control básicas. A futuro se planea agregar el soporte de clases y diseño de interfaces gráficas.
@@ -42,7 +40,7 @@ Antes de poder ejecutar, se hace necesario aplicar un parche que permitirá a An
 
 **Nota:** Debido a que en Windows no existe el comando *patch* [por defecto](http://gnuwin32.sourceforge.net/packages/patch.htm), se incluyó una copia de los ficheros modificados por el parche. Solo deberá copiar todos los contenidos del subdirectorio *parche* al directorio raiz del proyecto. 
 
-En caso de estar en un entorno que cuente con el comando patch solo debe ejecutar.
+En caso de estar en un entorno que cuente con el comando *patch* solo debe ejecutar.
 
 ```sh
 $ patch -p0 < parche/antlr4-ace.patch
@@ -72,6 +70,9 @@ Una vez se construya el proyecto, encontrará el APK en la ruta:
 Lexico/platforms/android/build/outputs/apk
 ```
 Este APK puede ser copiado a la memoria de su teléfono para posteriormente ser [instalado](https://www.elandroidelibre.com/2016/04/como-instalar-aplicaciones-apk-android.html).
+
+
+Este proyecto forma parte del trabajo de grado llevado a cabo por Christian Delany y dirigido por el Profesor de la Universidad de Antioquia Fabián Ríos C., quien ideó y ha estado a la cabeza de la implementación de Léxico desde sus orígenes en los años ochenta. Si desea colaborar o saber más del proyecto no dude en contactarnos.
 
    [Léxico]: <http://lexico.mobi/>
    [Cordova]: <https://cordova.apache.org/>

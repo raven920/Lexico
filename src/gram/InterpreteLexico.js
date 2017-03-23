@@ -63,7 +63,7 @@ InterpreteLexico.prototype.transformar = function(){
     if(this.errors == null || this.errors.length != 0){
         return false;
     }
-    this.run = new RunPhase();
+    this.run = new RunPhase(this.def.globales, this.def.alcances);
     antlr4.tree.ParseTreeWalker.DEFAULT.walk(this.run, this.tree);
 
     this.errors = this.run.errors;

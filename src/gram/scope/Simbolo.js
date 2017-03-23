@@ -12,7 +12,6 @@ function Simbolo(params){
     }
 
     this.alcance = null;
-
 }
 
 Simbolo.prototype.constructor = Simbolo;

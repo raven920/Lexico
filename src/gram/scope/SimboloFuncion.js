@@ -2,6 +2,7 @@ var Simbolo = require('./Simbolo.js').Simbolo;
 function SimboloFuncion(params){
     Simbolo.call(this, params);
     this.alcanceSuperior = params["alcanceSuperior"];
+    this.profundidad = params["profundidad"];
     this.nombreAlcance = "funcion";
 }
 

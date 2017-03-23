@@ -46,11 +46,29 @@ export default class App extends React.Component {
       interprete.construirAnalizador(this.state.codigo);
       if(   !interprete.analizarSintaxis()
          || !interprete.analizarSemantica()
-         //|| !interprete.transformar()
+         || !interprete.transformar()
         ){
           this.mostrarErrores(interprete.errors);
           return;
       }
+
+      /*
+        La ejecución ha sido un dolor de cabeza para el desarrollador
+        ya que el jsx está en un alcance "use strict".
+        Por favor no lo culpe por este horrendo hack, si tiene una
+        manera más saludable de ejecutar el código, por favor
+        haga un pull request.
+
+        Si desea saber como funciona:
+        http://stackoverflow.com/questions/19357978/indirect-eval-call-in-strict-mode
+      */
+
+      (function(){ "use strict" //El alcance ya es estricto, esto no hace nada
+        var nuevoeval = eval; //Hacemos nuestro eval con juegos de azar y mujerzuelas.
+        nuevoeval(interprete.run.codigo); //Magia negra
+        })();
+
+      window.programa(notification); //Pasar todo lo que se necesite por aquí.
       this.setState({errores: [], marcadores: []});
   }
 

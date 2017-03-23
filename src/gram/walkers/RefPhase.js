@@ -3,7 +3,7 @@ var SimboloFuncion = require('../scope/SimboloFuncion.js').SimboloFuncion;
 
 function RefPhase(globales, alcances){
     LexicoListener.call(this);
-    console.log(globales);
+
     this.globales = globales;
     this.alcances = alcances;
     this.alcanceActual = null;
@@ -26,12 +26,6 @@ RefPhase.prototype.revisarAlcance = function(idToken){
     };
 
     var variable = this.alcanceActual.resolve(name.text);
-    if(variable != null){
-        console.log("a:");
-        console.log(variable.alcance.getFuncionSuperior());
-        console.log(this.alcanceActual.getFuncionSuperior() == variable.alcance.getFuncionSuperior());
-        console.log(this.alcanceActual.getFuncionSuperior());
-    }
 
     if(variable == null){
         err["recomendacion"] = "'"+idToken.getText()+"' no ha sido declarado.";

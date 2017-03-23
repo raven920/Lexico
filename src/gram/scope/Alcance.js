@@ -1,7 +1,9 @@
-function Alcance(nombreAlcance, alcanceSuperior){
+function Alcance(nombreAlcance, alcanceSuperior, profundidad){
     this.alcanceSuperior = alcanceSuperior;
-    this.symbols = {};
     this.nombreAlcance = nombreAlcance;
+    this.profundidad = profundidad;
+    this.symbols = {};
+
 }
 
 Alcance.prototype.constructor = Alcance;

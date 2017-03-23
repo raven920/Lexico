@@ -83,6 +83,42 @@ LexicoListener.prototype.exitMuestre = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LexicoParser#SiYNoCond.
+LexicoListener.prototype.enterSiYNoCond = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#SiYNoCond.
+LexicoListener.prototype.exitSiYNoCond = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#SoloNoCond.
+LexicoListener.prototype.enterSoloNoCond = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#SoloNoCond.
+LexicoListener.prototype.exitSoloNoCond = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#siCond.
+LexicoListener.prototype.enterSiCond = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#siCond.
+LexicoListener.prototype.exitSiCond = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#noCond.
+LexicoListener.prototype.enterNoCond = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#noCond.
+LexicoListener.prototype.exitNoCond = function(ctx) {
+};
+
+
 // Enter a parse tree produced by LexicoParser#llamadaFuncion.
 LexicoListener.prototype.enterLlamadaFuncion = function(ctx) {
 };
@@ -116,15 +152,6 @@ LexicoListener.prototype.enterDeclaracionArreglos = function(ctx) {
 
 // Exit a parse tree produced by LexicoParser#DeclaracionArreglos.
 LexicoListener.prototype.exitDeclaracionArreglos = function(ctx) {
-};
-
-
-// Enter a parse tree produced by LexicoParser#Indice.
-LexicoListener.prototype.enterIndice = function(ctx) {
-};
-
-// Exit a parse tree produced by LexicoParser#Indice.
-LexicoListener.prototype.exitIndice = function(ctx) {
 };
 
 
@@ -170,6 +197,15 @@ LexicoListener.prototype.enterParentesis = function(ctx) {
 
 // Exit a parse tree produced by LexicoParser#Parentesis.
 LexicoListener.prototype.exitParentesis = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#MenosUnario.
+LexicoListener.prototype.enterMenosUnario = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#MenosUnario.
+LexicoListener.prototype.exitMenosUnario = function(ctx) {
 };
 
 

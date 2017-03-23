@@ -64,12 +64,8 @@ DefPhase.prototype.revisarAlcance = function(nameToken){
 }
 
 DefPhase.prototype.enterProg = function(ctx){
-    this.globales = new Alcance("globales", null);
+    this.globales = new Alcance("globales", null, 1);
     this.alcanceActual = this.globales;
-}
-
-DefPhase.prototype.exitProg = function(ctx){
-    console.log(this.globales.toString());
 }
 
 DefPhase.prototype.enterTarea = function(ctx){
@@ -77,25 +73,24 @@ DefPhase.prototype.enterTarea = function(ctx){
                                    "tipo":"void",
                                    "alcanceSuperior": this.alcanceActual,
                                     line:0,
-                                   column:0});
+                                    column:0,
+                                    profundidad: this.alcanceActual.profundidad+1});
     this.alcanceActual.define(func);
     this.alcances.put(ctx,func);
     this.alcanceActual = func;
 }
 
 DefPhase.prototype.enterBloque = function(ctx){
-    this.alcanceActual = new Alcance("locales",this.alcanceActual);
+    this.alcanceActual = new Alcance("locales",this.alcanceActual, this.alcanceActual.profundidad+1);
     this.alcances.put(ctx, this.alcanceActual);
 }
 
 DefPhase.prototype.exitBloque = function(ctx){
-    console.log(this.alcanceActual.toString())
     this.alcanceActual = this.alcanceActual.alcanceSuperior;
 }
 
 
 DefPhase.prototype.exitTarea = function(ctx){
-    console.log(this.alcanceActual.toString());
     this.alcanceActual = this.alcanceActual.alcanceSuperior;
 }
 
@@ -123,10 +118,12 @@ DefPhase.prototype.exitUsoArreglo
 }
 
 DefPhase.prototype.exitIDFromIdOrArr = function(ctx) {
+
     this.idStack[this.idStack.length-1].push(ctx.ID());
 };
 
 DefPhase.prototype.exitArreglo = function(ctx) {
+
     this.idStack[this.idStack.length-1].push(ctx.ID());
 };
 

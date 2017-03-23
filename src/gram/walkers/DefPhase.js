@@ -1,9 +1,9 @@
 var HashTable = require('../../util/HashTable.js').HashTable;
 var antlr4 = require('antlr4/index');
 var LexicoListener = require('../LexicoListener.js').LexicoListener;
-var Scope = require('../scope/Scope.js').Scope;
-var Symbol = require('../scope/Symbol.js').Symbol;
-var FunctionSymbol = require('../scope/FunctionSymbol.js').FunctionSymbol;
+var Alcance = require('../scope/Alcance.js').Alcance;
+var Simbolo = require('../scope/Simbolo.js').Simbolo;
+var SimboloFuncion = require('../scope/SimboloFuncion.js').SimboloFuncion;
 
 function recolectarTokens(idTokens){
     var i;
@@ -16,8 +16,8 @@ function recolectarTokens(idTokens){
 
 function DefPhase(){
     LexicoListener.call(this);
-    this.globals = null;
-    this.currentScope = null;
+    this.globales = null;
+    this.alcanceActual = null;
     this.idStack = [];
     this.errors = [];
     return this;
@@ -25,25 +25,18 @@ function DefPhase(){
 
 DefPhase.prototype = Object.create(LexicoListener.prototype);
 DefPhase.prototype.constructor = DefPhase;
-DefPhase.prototype.scopes = new HashTable();
+DefPhase.prototype.alcances = new HashTable();
 
 DefPhase.prototype.defineVar = function(nameToken,typeToken){
-    if(this.currentScope.exists(nameToken.getText())){
-        var sim = nameToken.getSymbol();
-        this.errors.push({
-            problema: "Error semántico",
-            simbolo: sim,
-            linea: sim.line,
-            columna: sim.column,
-            recomendacion: "'"+nameToken.getText()+"' fue previamente definido."
-        });
+    if(!this.revisarAlcance(nameToken)){
         return;
     }
-    var symVar = new Symbol({"name": nameToken.getText(),
-                             "type": typeToken.getText(),
-                             "line": nameToken.getSymbol().line,
-                             "column": nameToken.getSymbol().column})
-    this.currentScope.define(symVar);
+
+    var symVar = new Simbolo({"nombre": nameToken.getText(),
+                             "tipo": typeToken.getText(),
+                             "linea": nameToken.getSymbol().line,
+                             "columna": nameToken.getSymbol().column})
+    this.alcanceActual.define(symVar);
 }
 
 DefPhase.prototype.defineVars = function(arr, idToken){
@@ -53,39 +46,57 @@ DefPhase.prototype.defineVars = function(arr, idToken){
     }
 }
 
+DefPhase.prototype.revisarAlcance = function(nameToken){
+    //Si existe en este alcance no se puede volver a declarar.
+    if(this.alcanceActual.exists(nameToken.getText())){
+        var sim = nameToken.getSymbol();
+        this.errors.push({
+            problema: "Error semántico",
+            simbolo: sim,
+            linea: sim.line,
+            columna: sim.column,
+            recomendacion: "'"+nameToken.getText()+"' ya se definió en este alcance."
+        });
+        return false;
+    }
+
+    return true;
+}
+
 DefPhase.prototype.enterProg = function(ctx){
-    this.globals = new Scope("globals", null);
-    this.currentScope = this.globals;
+    this.globales = new Alcance("globales", null);
+    this.alcanceActual = this.globales;
 }
 
 DefPhase.prototype.exitProg = function(ctx){
-    console.log(this.globals.toString());
+    console.log(this.globales.toString());
 }
 
 DefPhase.prototype.enterTarea = function(ctx){
-    var func = new FunctionSymbol({"name":"tarea",
-                                   "type":"void",
-                                   "currentScope": this.currentScope,
-                                    line:0, column:0});
-    this.currentScope.define(func);
-    this.scopes.put(ctx,func);
-    this.currentScope = func;
+    var func = new SimboloFuncion({"nombre":"tarea",
+                                   "tipo":"void",
+                                   "alcanceSuperior": this.alcanceActual,
+                                    line:0,
+                                   column:0});
+    this.alcanceActual.define(func);
+    this.alcances.put(ctx,func);
+    this.alcanceActual = func;
 }
 
 DefPhase.prototype.enterBloque = function(ctx){
-    this.currentScope = new Scope("locals",this.currentScope);
-    this.scopes.put(ctx, this.currentScope);
+    this.alcanceActual = new Alcance("locales",this.alcanceActual);
+    this.alcances.put(ctx, this.alcanceActual);
 }
 
 DefPhase.prototype.exitBloque = function(ctx){
-    console.log(this.currentScope.toString())
-    this.currentScope = this.currentScope.enclosingScope;
+    console.log(this.alcanceActual.toString())
+    this.alcanceActual = this.alcanceActual.alcanceSuperior;
 }
 
 
 DefPhase.prototype.exitTarea = function(ctx){
-    console.log(this.currentScope.toString());
-    this.currentScope = this.currentScope.enclosingScope;
+    console.log(this.alcanceActual.toString());
+    this.alcanceActual = this.alcanceActual.alcanceSuperior;
 }
 
 DefPhase.prototype.exitDeclaracionUnaVar = function(ctx){

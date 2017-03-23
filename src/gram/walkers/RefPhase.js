@@ -1,12 +1,12 @@
 var LexicoListener = require('../LexicoListener.js').LexicoListener;
-var FunctionSymbol = require('../scope/FunctionSymbol.js').FunctionSymbol;
+var SimboloFuncion = require('../scope/SimboloFuncion.js').SimboloFuncion;
 
-function RefPhase(globals, scopes){
+function RefPhase(globales, alcances){
     LexicoListener.call(this);
-    console.log(globals);
-    this.globals = globals;
-    this.scopes = scopes;
-    this.currentScope = null;
+    console.log(globales);
+    this.globales = globales;
+    this.alcances = alcances;
+    this.alcanceActual = null;
     this.idStack = [];
     this.errors =[];
     return this;
@@ -15,8 +15,9 @@ function RefPhase(globals, scopes){
 RefPhase.prototype = Object.create(LexicoListener.prototype);
 RefPhase.prototype.constructor = RefPhase;
 
-RefPhase.prototype.checkScope = function(idToken){
+RefPhase.prototype.revisarAlcance = function(idToken){
     var name = idToken.getSymbol();
+
     var err = {
             problema: "Error semántico",
             simbolo: name,
@@ -24,13 +25,21 @@ RefPhase.prototype.checkScope = function(idToken){
             columna: name.column
     };
 
-    var variable = this.currentScope.resolve(name.text);
+    var variable = this.alcanceActual.resolve(name.text);
+    if(variable != null){
+        console.log("a:");
+        console.log(variable.alcance.getFuncionSuperior());
+        console.log(this.alcanceActual.getFuncionSuperior() == variable.alcance.getFuncionSuperior());
+        console.log(this.alcanceActual.getFuncionSuperior());
+    }
+
     if(variable == null){
         err["recomendacion"] = "'"+idToken.getText()+"' no ha sido declarado.";
-    }else if(variable instanceof FunctionSymbol){
+    }else if(variable instanceof SimboloFuncion){
         err["recomendacion"] = "'"+idToken.getText()+"' no es una variable.";
-    }else if(variable.scope == this.currentScope){
-        if(name.line <= variable.line && name.column < variable.column){
+    }else if(this.alcanceActual.getFuncionSuperior() == variable.alcance.getFuncionSuperior()){
+        if(   name.line < variable.linea
+          || (name.line == variable.linea && name.column < variable.columna)){
             err["recomendacion"] = "'"+idToken.getText()+"' debe ser declarada primero.";
         }
     }
@@ -40,24 +49,24 @@ RefPhase.prototype.checkScope = function(idToken){
 }
 
 RefPhase.prototype.enterProg = function(ctx){
-    this.currentScope = this.globals;
+    this.alcanceActual = this.globales;
 }
 
 RefPhase.prototype.enterTarea = function(ctx){
 
-    this.currentScope = this.scopes.get(ctx);
+    this.alcanceActual = this.alcances.get(ctx);
 }
 
 RefPhase.prototype.exitTarea = function(ctx){
-    this.currentScope = this.currentScope.enclosingScope;
+    this.alcanceActual = this.alcanceActual.alcanceSuperior;
 }
 
 RefPhase.prototype.enterBloque = function(ctx){
-    this.currentScope = this.scopes.get(ctx);
+    this.alcanceActual = this.alcances.get(ctx);
 }
 
 RefPhase.prototype.exitBloque = function(ctx){
-    this.currentScope = this.currentScope.enclosingScope;
+    this.alcanceActual = this.alcanceActual.alcanceSuperior;
 }
 
 RefPhase.prototype.exitArreglo = function(ctx){
@@ -83,7 +92,7 @@ RefPhase.prototype.exitCopieEn
     var i;
     var l = this.idStack.pop();
     for(i of l ){
-        this.checkScope(i);
+        this.revisarAlcance(i);
     }
 }
 
@@ -94,11 +103,11 @@ RefPhase.prototype.exitDeclaracionArreglos
 }
 
 RefPhase.prototype.exitUsoArreglo = function(ctx) {
-    this.checkScope((this.idStack.pop())[0]);
+    this.revisarAlcance((this.idStack.pop())[0]);
 }
 
 RefPhase.prototype.exitUsoVar = function(ctx) {
-    this.checkScope(ctx.ID(0));
+    this.revisarAlcance(ctx.ID(0));
 }
 
 exports.RefPhase = RefPhase;

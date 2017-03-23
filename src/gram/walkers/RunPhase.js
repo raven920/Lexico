@@ -1,5 +1,5 @@
 var LexicoListener = require('../LexicoListener.js').LexicoListener;
-var FunctionSymbol = require('../scope/FunctionSymbol.js').FunctionSymbol;
+var SimboloFuncion = require('../scope/SimboloFuncion.js').SimboloFuncion;
 
 function RunPhase(){
     LexicoListener.call(this);

@@ -52,7 +52,7 @@ InterpreteLexico.prototype.analizarSemantica = function(){
         return false;
     }
 
-    this.ref = new RefPhase(this.def.globals, this.def.scopes);
+    this.ref = new RefPhase(this.def.globales, this.def.alcances);
     antlr4.tree.ParseTreeWalker.DEFAULT.walk(this.ref, this.tree);
 
     this.errors = this.ref.errors;

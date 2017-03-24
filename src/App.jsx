@@ -63,12 +63,13 @@ export default class App extends React.Component {
         http://stackoverflow.com/questions/19357978/indirect-eval-call-in-strict-mode
       */
 
-      (function(){ "use strict" //El alcance ya es estricto, esto no hace nada
+      console.log(interprete.run.codigo);
+      /*(function(){ "use strict" //El alcance ya es estricto, esto no hace nada
         var nuevoeval = eval; //Hacemos nuestro eval con juegos de azar y mujerzuelas.
         nuevoeval(interprete.run.codigo); //Magia negra
         })();
 
-      window.programa(notification); //Pasar todo lo que se necesite por aquí.
+      window.programa(notification); //Pasar todo lo que se necesite por aquí.*/
       this.setState({errores: [], marcadores: []});
   }
 

@@ -56,6 +56,24 @@ LexicoListener.prototype.exitCondicional = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LexicoParser#Variando.
+LexicoListener.prototype.enterVariando = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Variando.
+LexicoListener.prototype.exitVariando = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#Mientras.
+LexicoListener.prototype.enterMientras = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Mientras.
+LexicoListener.prototype.exitMientras = function(ctx) {
+};
+
+
 // Enter a parse tree produced by LexicoParser#CopieEn.
 LexicoListener.prototype.enterCopieEn = function(ctx) {
 };
@@ -80,6 +98,33 @@ LexicoListener.prototype.enterMuestre = function(ctx) {
 
 // Exit a parse tree produced by LexicoParser#Muestre.
 LexicoListener.prototype.exitMuestre = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#condVariando.
+LexicoListener.prototype.enterCondVariando = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#condVariando.
+LexicoListener.prototype.exitCondVariando = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#exprCond.
+LexicoListener.prototype.enterExprCond = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#exprCond.
+LexicoListener.prototype.exitExprCond = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#exprMientras.
+LexicoListener.prototype.enterExprMientras = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#exprMientras.
+LexicoListener.prototype.exitExprMientras = function(ctx) {
 };
 
 

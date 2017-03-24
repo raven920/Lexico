@@ -100,7 +100,9 @@ RefPhase.prototype.exitUsoArreglo = function(ctx) {
     this.revisarAlcance((this.idStack.pop())[0]);
 }
 
-RefPhase.prototype.exitUsoVar = function(ctx) {
+
+RefPhase.prototype.enterCondVariando
+    =   RefPhase.prototype.exitUsoVar = function(ctx) {
     this.revisarAlcance(ctx.ID(0));
 }
 

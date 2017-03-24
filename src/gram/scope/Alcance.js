@@ -23,8 +23,6 @@ Alcance.prototype.define = function(sym){
 }
 
 Alcance.prototype.exists = function(varName){
-    console.log("entró: "+varName +" wtf: "+
-               Object.keys(this.symbols));
     return this.symbols[varName] != undefined;
 }
 

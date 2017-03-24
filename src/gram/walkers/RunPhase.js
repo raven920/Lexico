@@ -48,16 +48,40 @@ RunPhase.prototype.exitBloque = function(ctx){
     this.codigo += this.idn + "}\n";
 }
 
-RunPhase.prototype.enterCondicional = function(ctx){
-    this.codigo += this.idn + "if("+ctx.expr().getText()+")"
-}
-
 RunPhase.prototype.enterSoloNoCond = function(ctx){
     this.codigo += "{\n"+ this.idn+ "}";
 }
 
 RunPhase.prototype.enterNoCond = function(ctx){
     this.codigo +=  this.idn + "else";
+}
+
+RunPhase.prototype.enterCondVariando
+    =   RunPhase.prototype.enterExprCond
+    =   RunPhase.prototype.enterExprMientras
+        = function(ctx){
+    this.exprStack.push([]);
+}
+
+RunPhase.prototype.exitExprCond = function(ctx){
+    var stack = this.exprStack.pop();
+    var expr = stack.pop();
+    this.codigo += this.idn + "if("+expr+") "
+}
+
+RunPhase.prototype.exitExprMientras = function(ctx){
+    var stack = this.exprStack.pop();
+    var expr = stack.pop();
+    this.codigo += this.idn + "while("+expr+") "
+}
+
+RunPhase.prototype.exitCondVariando = function(ctx){
+    var nomVar = this.nombreVar(ctx.ID(0));
+    var stack = this.exprStack.pop();
+    var expr2 = stack.pop();
+    var expr1 = stack.pop();
+
+    this.codigo += this.idn + "for("+nomVar+" = "+expr1+"; "+nomVar+" < "+expr2+"; "+nomVar+"++)"
 }
 
 RunPhase.prototype.definirVariables = function(ctx, l){
@@ -95,8 +119,14 @@ RunPhase.prototype.exitCopieEn = function(ctx) {
     this.codigo +=  expr+ ";\n";
 };
 
+/*
+    El código de exitMuestre y exitEntre debe cambiar.
+    Hay que pensar en usar Promises, es posible que
+    haya que hacer un refactor grande.
+*/
+
 RunPhase.prototype.exitMuestre = function(ctx) {
-    this.codigo += this.idn + "notification.alert( ";
+    this.codigo += this.idn + "alert( ";
     var l = this.exprStack.pop();
     for(var i of l){
         this.codigo += '(' + i + ")+ '' + ";

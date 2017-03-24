@@ -85,12 +85,11 @@ RunPhase.prototype.exitCondVariando = function(ctx){
 }
 
 RunPhase.prototype.definirVariables = function(ctx, l){
-    var i;
     var variable = this.alcanceActual.resolve(ctx.ID(0).getText());
     var prefijo = Array(variable.alcance.profundidad+1).join("_");
     this.codigo += this.idn + "var "+prefijo+variable.nombre;
-    for(i of l){
-        this.codigo += ", " + i;
+    for(var i of l){
+        this.codigo += ", " + i["nombre"];
     }
     this.codigo += ";\n";
 }

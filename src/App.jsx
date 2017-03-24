@@ -8,6 +8,7 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/lexico';
 import 'brace/theme/xcode';
+var herramientas = require('runtime/herramientas.js');
 var InterpreteLexico = require('gram/InterpreteLexico.js').InterpreteLexico;
 
 export default class App extends React.Component {
@@ -63,13 +64,12 @@ export default class App extends React.Component {
         http://stackoverflow.com/questions/19357978/indirect-eval-call-in-strict-mode
       */
 
-      //console.log(interprete.run.codigo);
       (function(){ "use strict" //El alcance ya es estricto, esto no hace nada
         var nuevoeval = eval; //Hacemos nuestro eval con juegos de azar y mujerzuelas.
         nuevoeval(interprete.run.codigo); //Magia negra
         })();
 
-      window.programa(notification); //Pasar todo lo que se necesite por aquí.
+      window.programa(herramientas); //Pasar todo lo que se necesite por aquí.
       this.setState({errores: [], marcadores: []});
   }
 

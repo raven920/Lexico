@@ -17,9 +17,19 @@ function RunPhase(globales, alcances){
 RunPhase.prototype = Object.create(LexicoListener.prototype);
 RunPhase.prototype.constructor = RunPhase;
 
+RunPhase.prototype.tipoDatos = {
+    caracter: "\"\"",
+    caracteres: "\"\"",
+    cantidad: 0,
+    cantidades: 0,
+    booleano: false,
+    booleanos: true
+}
+
 RunPhase.prototype.enterProg = function(ctx){
-    this.codigo += "function programa(notification){";
+    this.codigo += "function programa(h){";
     this.idn += "    ";
+    this.codigo += this.idn + "var Arreglo = h.Arreglo";
     this.alcanceActual = this.globales;
 }
 
@@ -84,23 +94,48 @@ RunPhase.prototype.exitCondVariando = function(ctx){
     this.codigo += this.idn + "for("+nomVar+" = "+expr1+"; "+nomVar+" < "+expr2+"; "+nomVar+"++)"
 }
 
-RunPhase.prototype.definirVariables = function(ctx, l){
-    var variable = this.alcanceActual.resolve(ctx.ID(0).getText());
-    var prefijo = Array(variable.alcance.profundidad+1).join("_");
-    this.codigo += this.idn + "var "+prefijo+variable.nombre;
-    for(var i of l){
-        this.codigo += ", " + i["nombre"];
+
+RunPhase.prototype.definirVariables = function(l, tipo){
+    if(l.length == 0){
+        return;
     }
-    this.codigo += ";\n";
+
+    this.codigo += this.idn;
+    for(var i of l){
+        this.codigo += "var "+i["nombre"]+" = ";
+        if(i["dim"] != 0){
+            this.codigo += "new Arreglo(["+i["indices"][0];
+            for(var j = 1; j < i["dim"]; j++){
+                this.codigo += ", "+i["indices"][j];
+            }
+            this.codigo += "]); ";
+        }else{
+            this.codigo += this.tipoDatos[tipo]+"; ";
+        }
+    }
+    this.codigo += "\n";
 }
 
 RunPhase.prototype.exitDeclaracionUnaVar = function(ctx){
-    this.definirVariables(ctx,[]);
+    this.definirVariables([{nombre: this.nombreVar(ctx.ID(0)), dim: 0, indexes: null}], ctx.ID(1).getText());
 }
 
 RunPhase.prototype.exitDeclaracionVariasVar = function(ctx){
-    this.definirVariables(ctx, this.idModStack.pop());
+    var variables = this.idModStack.pop();
+    variables.unshift({nombre: this.nombreVar(ctx.ID(0)), dim: 0, indexes: null})
+    this.definirVariables(variables, ctx.ID(1).getText());
 }
+
+RunPhase.prototype.exitDeclaracionArreglos = function(ctx){
+    var arrN = this.idModStack.pop();
+    var arr1
+    if(ctx.listaIdOArr() != null){
+        var arr1 = this.idModStack.pop();
+        arrN.unshift(arr1[0]);
+    }
+    this.definirVariables(arrN, ctx.ID(0).getText());
+}
+
 
 RunPhase.prototype.enterCopieEn = function(ctx){
     this.exprStack.push([]);
@@ -113,9 +148,18 @@ RunPhase.prototype.exitCopieEn = function(ctx) {
     var l = this.idModStack.pop();
     this.codigo += this.idn ;
     for(var i of l){
-        this.codigo += i["nombre"]+ " = ";
+        if(i["dim"] != 0){
+            this.codigo += i["nombre"]+".set(["
+            this.codigo += i["indices"][0];
+            for(var j = 1; j < i["dim"]; j++){
+                this.codigo += ", " + i["indices"][j];
+            }
+            this.codigo += "], "+expr+"); "
+        }else{
+            this.codigo += i["nombre"]+ " = "+ expr+"; ";
+        }
     }
-    this.codigo +=  expr+ ";\n";
+    this.codigo +=  ";\n";
 };
 
 /*
@@ -140,10 +184,6 @@ RunPhase.prototype.exitEntre = function(ctx) {
         this.codigo += this.idn + i["nombre"] +" = prompt('entre "+i["nombre"]+"');\n";
     }
 };
-
-RunPhase.prototype.enterListaExpr = function(ctx) {
-    this.exprStack.push([]);
-}
 
 RunPhase.prototype.exitUsoVar =function(ctx){
     var nom = this.nombreVar(ctx.ID(0));
@@ -180,18 +220,21 @@ RunPhase.prototype.exitMenosUnario
     this.exprStack[this.exprStack.length-1].push(ctx.children[0].getText()+expr);
 }
 
-RunPhase.prototype.enterUsoArreglo = function(ctx){
+RunPhase.prototype.enterDeclaracionArreglos
+    =   RunPhase.prototype.enterListaIdOArr
+    =   RunPhase.prototype.enterUsoArreglo = function(ctx){
     this.idModStack.push([]);
 }
 
 RunPhase.prototype.exitUsoArreglo = function(ctx){
     var stack = this.idModStack.pop();
-    var expr = stack[0]["nombre"];
+    var expr = stack[0]["nombre"]+".get([";
+    expr += stack[0]["indices"][0];
+    for(var i = 1; i < stack[0]["dim"]; i++){
+        expr += ", " + stack[0]["indices"][i];
+    }
+    expr += "])"
     this.exprStack[this.exprStack.length-1].push(expr);
-}
-
-RunPhase.prototype.enterListaIdOArr = function(ctx){
-    this.idModStack.push([]);
 }
 
 RunPhase.prototype.nombreVar = function(idToken){
@@ -202,12 +245,18 @@ RunPhase.prototype.nombreVar = function(idToken){
 
 RunPhase.prototype.exitIDFromIdOrArr= function(ctx) {
     var nom = this.nombreVar(ctx.ID(0));
-    this.idModStack[this.idModStack.length-1].push({nombre: nom, dim: 0});
+    this.idModStack[this.idModStack.length-1].push({nombre: nom, dim: 0, indices: null});
 }
 
-RunPhase.prototype.exitArreglo= function(ctx) {
+RunPhase.prototype.enterListaExpr
+    =   RunPhase.prototype.enterArreglo = function(ctx){
+    this.exprStack.push([]);
+}
+
+RunPhase.prototype.exitArreglo = function(ctx) {
     var nom = this.nombreVar(ctx.ID(0));
-    this.idModStack[this.idModStack.length-1].push({nombre: nom, dim: 0});
+    var exprs = this.exprStack.pop();
+    this.idModStack[this.idModStack.length-1].push({nombre: nom, dim: ctx.expr().length, indices: exprs});
 }
 
 

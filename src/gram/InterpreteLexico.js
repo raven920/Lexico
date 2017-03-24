@@ -40,6 +40,7 @@ InterpreteLexico.prototype.analizarSintaxis = function(){
 }
 
 InterpreteLexico.prototype.analizarSemantica = function(){
+
     if(this.errors == null || this.errors.length != 0){
         return false;
     }

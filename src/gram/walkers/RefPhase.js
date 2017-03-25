@@ -18,7 +18,7 @@ RefPhase.prototype.constructor = RefPhase;
 
 RefPhase.prototype.nuevoError = function(idSimbolo, mensaje){
     this.errors.push({
-            problema: "Error semántico",
+            problema: "SE",
             simbolo: idSimbolo,
             linea: idSimbolo.line,
             columna: idSimbolo.column,

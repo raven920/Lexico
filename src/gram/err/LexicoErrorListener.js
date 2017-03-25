@@ -9,7 +9,7 @@ LexicoErrorListener.prototype.constructor = LexicoErrorListener;
 
 LexicoErrorListener.prototype.syntaxError = function(recognizer, offendingSymbol, line, column, msg, e) {
 
-    var problema = {problema: "Error de sintaxis", simbolo: offendingSymbol, linea: line, columna: column};
+    var problema = {problema: "SI", simbolo: offendingSymbol, linea: line, columna: column};
     if(e != null){
         if(e instanceof antlr4.error.NoViableAltException){
             problema['recomendacion'] = "revise llaves y paréntesis."

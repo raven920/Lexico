@@ -42,7 +42,7 @@ DefPhase.prototype.revisarAlcance = function(nameToken){
     if(this.alcanceActual.exists(nameToken.getText())){
         var sim = nameToken.getSymbol();
         this.errors.push({
-            problema: "Error semántico",
+            problema: "SE",
             simbolo: sim,
             linea: sim.line,
             columna: sim.column,

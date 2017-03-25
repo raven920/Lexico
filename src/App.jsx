@@ -8,7 +8,6 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/lexico';
 import 'brace/theme/xcode';
-var herramientas = require('runtime/herramientas.js');
 var InterpreteLexico = require('gram/InterpreteLexico.js').InterpreteLexico;
 
 export default class App extends React.Component {
@@ -27,17 +26,22 @@ export default class App extends React.Component {
       var erroresLineaEd = [];
       var erroresResaltadoEd = [];
       for(var err of errors){
+          if(err['problema'] == "EJ"){
+              notification.alert({title: "Error de ejecución", message: err['recomendacion']});
+          }else{
+              erroresResaltadoEd.push(
+                  {startRow: err['simbolo'].line-1,
+                   startCol: err['simbolo'].column,
+                   endRow: err['simbolo'].line-1,
+                   endCol: err['simbolo'].column+err['simbolo'].text.length,
+                   className: 'ace_highlight-marker', type: 'text' });
+          }
           erroresLineaEd.push(
               {row: err['linea']-1,
                column: err['columna'],
                type:'error',
-               text: err['recomendacion']});
-          erroresResaltadoEd.push(
-              {startRow: err['simbolo'].line-1,
-               startCol: err['simbolo'].column,
-               endRow: err['simbolo'].line-1,
-               endCol: err['simbolo'].column+err['simbolo'].text.length,
-               className: 'ace_highlight-marker', type: 'text' });
+               text: err['problema']+": "+err['recomendacion']});
+
       }
       this.setState({errores: erroresLineaEd, marcadores: erroresResaltadoEd});
   }
@@ -48,29 +52,12 @@ export default class App extends React.Component {
       if(   !interprete.analizarSintaxis()
          || !interprete.analizarSemantica()
          || !interprete.transformar()
+         || !interprete.ejecutar()
         ){
           this.mostrarErrores(interprete.errors);
-          return;
+      }else{
+          this.setState({errores: [], marcadores: []});
       }
-
-      /*
-        La ejecución ha sido un dolor de cabeza para el desarrollador
-        ya que el jsx está en un alcance "use strict".
-        Por favor no lo culpe por este horrendo hack, si tiene una
-        manera más saludable de ejecutar el código, por favor
-        haga un pull request.
-
-        Si desea saber como funciona:
-        http://stackoverflow.com/questions/19357978/indirect-eval-call-in-strict-mode
-      */
-
-      (function(){ "use strict" //El alcance ya es estricto, esto no hace nada
-        var nuevoeval = eval; //Hacemos nuestro eval con juegos de azar y mujerzuelas.
-        nuevoeval(interprete.run.codigo); //Magia negra
-        })();
-
-      window.programa(herramientas); //Pasar todo lo que se necesite por aquí.
-      this.setState({errores: [], marcadores: []});
   }
 
   renderToolbar() {

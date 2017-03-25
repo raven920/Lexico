@@ -108,7 +108,7 @@ RunPhase.prototype.definirVariables = function(l, tipo){
             for(var j = 1; j < i["dim"]; j++){
                 this.codigo += ", "+i["indices"][j];
             }
-            this.codigo += "]); ";
+            this.codigo += "], '"+i["token"].text+"' ); ";
         }else{
             this.codigo += this.tipoDatos[tipo]+"; ";
         }
@@ -179,9 +179,23 @@ RunPhase.prototype.exitMuestre = function(ctx) {
 };
 
 RunPhase.prototype.exitEntre = function(ctx) {
+    var indices;
     var l = this.idModStack.pop();
+    this.codigo += this.idn;
     for(var i of l){
-        this.codigo += this.idn + i["nombre"] +" = prompt('entre "+i["nombre"]+"');\n";
+        this.codigo += i["nombre"];
+        if(i["dim"] != 0){
+            indices = "["+ i["indices"][0];
+            for(var j = 1; j < i["dim"]; j++){
+                indices += ", "+i["indices"][j];
+            }
+            indices += "]"
+
+            this.codigo += ".set("+indices+", prompt('entre "+i["token"].text+"['+"+indices+"+']')); "
+        }else{
+            this.codigo += " = prompt('entre "+i["token"].text+"');\n";
+        }
+
     }
 };
 
@@ -245,7 +259,7 @@ RunPhase.prototype.nombreVar = function(idToken){
 
 RunPhase.prototype.exitIDFromIdOrArr= function(ctx) {
     var nom = this.nombreVar(ctx.ID(0));
-    this.idModStack[this.idModStack.length-1].push({nombre: nom, dim: 0, indices: null});
+    this.idModStack[this.idModStack.length-1].push({nombre: nom, token: ctx.ID(0).getSymbol(), dim: 0, indices: null});
 }
 
 RunPhase.prototype.enterListaExpr
@@ -256,7 +270,7 @@ RunPhase.prototype.enterListaExpr
 RunPhase.prototype.exitArreglo = function(ctx) {
     var nom = this.nombreVar(ctx.ID(0));
     var exprs = this.exprStack.pop();
-    this.idModStack[this.idModStack.length-1].push({nombre: nom, dim: ctx.expr().length, indices: exprs});
+    this.idModStack[this.idModStack.length-1].push({nombre: nom, token: ctx.ID(0).getSymbol(), dim: ctx.expr().length, indices: exprs});
 }
 
 

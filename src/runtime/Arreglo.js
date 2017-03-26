@@ -1,10 +1,31 @@
-function createArray(length) {
-    var arr = new Array(length || 0),
-        i = length;
+/*
+   Derechos de autor 2017 Fabián Ríos y Christian Delany
+
+   Autorizado en virtud de la Licencia de Apache, Versión 2.0 (la "Licencia");
+   se prohíbe utilizar este archivo excepto en cumplimiento de la Licencia.
+   Podrá obtener una copia de la Licencia en:
+
+       Inglés: http://www.apache.org/licenses/LICENSE-2.0
+       Español: https://www.moo.com/es/about/fonts/licences/apache-licence.html
+
+   A menos que lo exijan las leyes pertinentes o se haya establecido por escrito, el software
+   distribuido en virtud de la Licencia se distribuye “TAL CUAL”,
+   SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ya sean expresas o implícitas.
+   Véase la Licencia para consultar el texto específico relativo a los permisos y
+   limitaciones establecidos en la Licencia.
+*/
+
+/*
+    Creación de arreglo N-dimensional por Matthew Crumley
+    obtenido de: http://stackoverflow.com/a/966938
+*/
+function crearArreglo(longitud) {
+    var arr = new Array(longitud || 0),
+        i = longitud;
 
     if (arguments.length > 1) {
         var args = Array.prototype.slice.call(arguments, 1);
-        while(i--) arr[length-1 - i] = createArray.apply(this, args);
+        while(i--) arr[longitud-1 - i] = crearArreglo.apply(this, args);
     }
 
     return arr;
@@ -23,7 +44,7 @@ function Arreglo(arr, nombre){
     this.nombre = nombre;
     this.dim = arr.length;
     this.size = arr;
-    this.array = createArray.apply(this, arr);
+    this.array = crearArreglo.apply(this, arr);
 }
 
 Arreglo.prototype.revisarIndice = function(indice){

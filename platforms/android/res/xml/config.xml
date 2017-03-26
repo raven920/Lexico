@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.example.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
     <name>Léxico</name>
     <description />
     <author />

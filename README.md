@@ -74,6 +74,8 @@ Este APK puede ser copiado a la memoria de su teléfono para posteriormente ser 
 
 Este proyecto forma parte del trabajo de grado llevado a cabo por Christian Delany y dirigido por el Profesor de la Universidad de Antioquia Fabián Ríos C., quien ideó y ha estado a la cabeza de la implementación de Léxico desde sus orígenes en los años ochenta. Si desea colaborar o saber más del proyecto no dude en contactarnos.
 
+Este el código de este proyecto está cobijado por la licencia Apache-2.0.
+
    [Léxico]: <http://lexico.mobi/>
    [Cordova]: <https://cordova.apache.org/>
    [OnsenUI]: <https://onsen.io/>

@@ -25,6 +25,7 @@
     <splash density="port-xxxhdpi" src="/res/android/screen/splash-port-xxxhdpi.9.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="AndroidLaunchMode" value="singleTop" />
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
     <preference name="BackgroundColor" value="0xffffffff" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Fullscreen" value="false" />

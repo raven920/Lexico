@@ -15,36 +15,31 @@
    limitaciones establecidos en la Licencia.
 */
 
-import 'react-hot-loader/patch';
-import {AppContainer} from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Navigator} from 'react-onsenui';
 
-require('onsenui/stylus/blue-basic-theme.styl');
-require('onsenui/css/onsenui.css');
+import App from './App';
 
-import Navegador from './Navegador';
+export default class Navegador extends React.Component {
+    constructor(props){
+        super(props);
+    }
 
-const rootElement = document.getElementById('app');
+    renderPage(route, navigator) {
+        const props = route.props || {};
+        props.navigator = navigator;
+        if(route.component == App){
+            props.key = 0
+        }else{
+            props.key = Math.floor(Math.random()*10000+1);
+        }
+        return React.createElement(route.component, props);
+    }
 
-
-
-
-ReactDOM.render(
-  <AppContainer>
-    <Navegador />
-  </AppContainer>,
-  rootElement
-);
-
-if (module.hot) {
-  module.hot.accept('./Navegador', () => {
-    const NextApp = require('./Navegador').default;
-    ReactDOM.render(
-      <AppContainer>
-         <NextApp />
-      </AppContainer>,
-      rootElement
-    );
-  });
+    render() {
+        return (
+          <Navigator initialRoute={{component: App}} renderPage={this.renderPage} />
+        );
+    }
 }

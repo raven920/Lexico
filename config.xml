@@ -7,6 +7,7 @@
     <content src="index.html" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="AndroidLaunchMode" value="singleTop" />
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
     <preference name="BackgroundColor" value="0xffffffff" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="ErrorUrl" value="" />

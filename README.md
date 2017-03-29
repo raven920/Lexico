@@ -1,6 +1,6 @@
 #   Léxico para Android
 
-*Léxico para Android* es la implementación de un intérprete del lenguaje de programación [Léxico] en dispositivos móviles con sistema operativo Android. Léxico es un lenguaje de programación didáctico en español que facilita el aprendizaje y la enseñanza de la programación. 
+*Léxico para Android* es la implementación de un editor e intérprete del lenguaje de programación [Léxico] en dispositivos móviles con sistema operativo Android. Léxico es un lenguaje de programación didáctico en español que facilita el aprendizaje y la enseñanza de la programación. 
 
 ###  Acerca del desarrollo
 

@@ -19,18 +19,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Carousel, CarouselItem} from 'react-onsenui';
-
-import brace from 'brace';
-import AceEditor from 'react-ace';
-import 'brace/mode/lexico';
-import 'brace/theme/xcode';
-
+import CMEditor from './CMEditor';
 
 export default class TabsEditor extends React.Component {
     constructor(props){
-        super(props);
 
+        super(props);
     }
+
     render() {
         return(
            <Carousel
@@ -38,25 +34,19 @@ export default class TabsEditor extends React.Component {
                autoRefresh fullscreen autoScroll>
                   {this.props.tabs.map((item, index) => (
                     <CarouselItem key={item["actualIndex"]}>
-                      <div height="100vh">
-                        <AceEditor
-                            mode="lexico"
-                            theme="xcode"
-                            width="100%"
-                            height="100vh"
-                            fontSize="0.9em"
-                            onChange={(codigo) => this.props.onCodeChange(codigo,index)}
-                            name="UNIQUE_ID_OF_DIV"
-                            wrapEnabled={true}
-                            annotations={this.props.tabs[index]["anotaciones"]}
-                            markers={this.props.tabs[index]["marcadores"]}
-                            value={this.props.tabs[index]["texto"]}
-                            />
-                        </div>
-                      </CarouselItem>
+                      <CMEditor
+                          value={this.props.tabs[index]["texto"]}
+                          onChange={(codigo) => this.props.onCodeChange(codigo,index)}
+                          errors={this.props.tabs[index]["anotaciones"]}
+                          />
+                    </CarouselItem>
                   ))}
 
         </Carousel>
         );
     }
+
+
 }
+
+

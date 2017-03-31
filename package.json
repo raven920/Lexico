@@ -3,11 +3,12 @@
   "version": "2.2.2+20170302.1",
   "description": "",
   "dependencies": {
+    "antlr4": "4.6.0",
     "onsenui": "2.1.0",
     "react": "15.4.2",
+    "react-ace": "4.1.6",
+    "react-codemirror": "^0.3.0",
     "react-dom": "15.4.2",
-    "react-onsenui": "1.1.0",
-    "antlr4": "4.6.0",
-    "react-ace": "4.1.6"
+    "react-onsenui": "1.1.0"
   }
 }

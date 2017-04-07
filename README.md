@@ -35,12 +35,15 @@ El siguiente paso es descargar el código fuente de *Lexico para Android* e inst
 $ git clone https://github.com/raven920/Lexico.git
 $ cd Lexico
 $ npm install
+$ cordova platform add android
+$ monaca plugin add cordova-plugin-file
 ```
 Antes de poder ejecutar, se hace necesario aplicar un parche que permitirá a Antlr4 correr correctamente en el ambiente de Cordova y Onsen, este parche tambien integra las definiciones del lenguaje Lexico al editor *CodeMirror*. 
 
 **Nota:** Debido a que en Windows no existe el comando *patch* [por defecto](http://gnuwin32.sourceforge.net/packages/patch.htm), se incluyó una copia de los ficheros modificados por el parche. Solo deberá copiar todos los contenidos del subdirectorio *parche* al directorio raiz del proyecto. 
 
 En caso de estar en un entorno que cuente con el comando *patch* solo debe ejecutar.
+
 
 ```sh
 $ patch -p0 < parche/antlr4-codemirror.patch

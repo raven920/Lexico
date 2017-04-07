@@ -15,33 +15,31 @@
    limitaciones establecidos en la Licencia.
 */
 
-import 'react-hot-loader/patch';
-import {AppContainer} from 'react-hot-loader';
-import React from 'react';
-import ReactDOM from 'react-dom';
 
-require('onsenui/stylus/blue-basic-theme.styl');
-require('onsenui/css/onsenui.css');
-
-import Navegador from './Navegador';
-
-const rootElement = document.getElementById('app');
-
-ReactDOM.render(
-  <AppContainer>
-    <Navegador />
-  </AppContainer>,
-  rootElement
-);
-
-if (module.hot) {
-  module.hot.accept('./Navegador', () => {
-    const NextApp = require('./Navegador').default;
-    ReactDOM.render(
-      <AppContainer>
-         <NextApp />
-      </AppContainer>,
-      rootElement
-    );
-  });
+const clases = {
+    caracter: "String",
+    cantidad: "Number",
+    caracteres: "String",
+    cantidades: "Number"
 }
+
+function declaracion(nombre,dim,clase,constructor){
+
+    if(clase.toLowerCase() in clases){
+        clase = clases[clase.toLowerCase()];
+    }
+
+    var codigo = "var "+nombre+" = new ";
+    if(dim.length != 0){
+        codigo += "Arreglo("
+        codigo += "["+dim.join(", ")+"],";
+        codigo += "'"+nombre+"', "+clase+", ";
+        codigo += "["+constructor.join(", ")+"]"
+        codigo += "); ";
+    }else{
+        codigo += clase+"("+constructor.join(", ")+");";
+    }
+    return codigo;
+}
+
+exports.declaracion = declaracion

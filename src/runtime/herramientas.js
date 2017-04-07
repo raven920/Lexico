@@ -14,5 +14,8 @@
    Véase la Licencia para consultar el texto específico relativo a los permisos y
    limitaciones establecidos en la Licencia.
 */
-
+var archivos = require('./archivos.js');
+exports.Archivo = archivos.Archivo;
+exports.Escritor = archivos.Escritor;
 exports.Arreglo = require('./Arreglo.js').Arreglo;
+exports.Stdio = require("./Stdio.js").Stdio;

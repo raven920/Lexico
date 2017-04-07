@@ -21,9 +21,15 @@ import ReactDOM from 'react-dom';
 import {Carousel, CarouselItem, Popover} from 'react-onsenui';
 import CodeMirror from 'react-codemirror';
 require('codemirror/lib/codemirror.css');
-require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/lexico/lexico');
+require('codemirror/addon/edit/closebrackets');
+require('codemirror/addon/edit/matchbrackets');
 
-
+/*require('codemirror/mode/javascript/javascript');
+require('./jshint');
+require('codemirror/addon/lint/lint');
+require('codemirror/addon/lint/javascript-lint')
+require('codemirror/addon/lint/lint.css');*/
 
 export default class TabsEditor extends React.Component {
     constructor(props){
@@ -62,7 +68,9 @@ export default class TabsEditor extends React.Component {
 
     makeMarker() {
       var marker = document.createElement("div");
-      marker.innerHTML = "●";
+      marker.innerHTML = "☒";
+      marker.style.fontWeight = "bold";
+      marker.style.textAlign = "right";
       marker.style.color = "red";
       return marker;
     }
@@ -90,11 +98,13 @@ export default class TabsEditor extends React.Component {
                     onChange={this.props.onChange}
 
                     options={{
-                        mode: 'javascript',
+                        mode: 'lexico',
                         lineNumbers: true,
                         dragDrop: false,
+                        autoCloseBrackets: true,
                         matchBrackets: true,
                         lint: true,
+                        lineWrapping:true,
                         gutters: ["CodeMirror-linenumbers"]}} />
                 <Popover
                   isOpen={this.state.isOpen}

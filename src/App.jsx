@@ -16,6 +16,7 @@
 */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "babel-polyfill";
 import {
     platform,
     notification
@@ -33,7 +34,9 @@ import {
 } from 'react-onsenui';
 import TabsEditor from './TabsEditor';
 import SelecArchivo from './SelecArchivo';
+import Archivo from './runtime/archivos.js';
 var InterpreteLexico = require('gram/InterpreteLexico.js').InterpreteLexico;
+var Babel = require('babel-standalone');
 
 export default class App extends React.Component {
 
@@ -103,7 +106,7 @@ export default class App extends React.Component {
 
     guardarArchivo(t, indice) {
         window.resolveLocalFileSystemURL(
-            cordova.file.externalRootDirectory + "Léxico",
+            cordova.file.externalRootDirectory + "Lexico",
             (dir) =>
             dir.getFile(
                 t[indice]["nombre"], {
@@ -115,6 +118,7 @@ export default class App extends React.Component {
                     (fileWriter) => {
                         fileWriter.write(t[indice]["texto"])
                         fileWriter.onwriteend = (evt) => this.propagarCambios(t, indice);
+
                     },
                     (e) => console.log(e))),
             (e) => console.log(e));
@@ -216,10 +220,10 @@ export default class App extends React.Component {
     ejecutar() {
         var interprete = new InterpreteLexico();
         interprete.construirAnalizador(this.state.tabs[this.state.tabIndex]["texto"]);
-        if (!interprete.analizarSintaxis() ||
-            !interprete.analizarSemantica() ||
-            !interprete.transformar() ||
-            !interprete.ejecutar()
+        if (!interprete.analizarSintaxis()
+            || !interprete.analizarSemantica()
+            || !interprete.transformar()
+            || !interprete.ejecutar()
         ) {
             this.mostrarErrores(interprete.errors);
         }
@@ -334,6 +338,11 @@ export default class App extends React.Component {
             </ListItem>]);
     }
 
+    preferencias(){
+    }
+
+
+
     render() {
         return (
             <Page>
@@ -352,7 +361,7 @@ export default class App extends React.Component {
                       <Page>
                         <div style={{textAlign: 'center', margin: "1em"}}>
                             <img style={{width: '50%'}} src="imagenes/logo/xxxhdpi.png"  />
-                            <p>Léxico</p>
+                            <p>LEXICO</p>
                         </div>
                         <hr/>
                         <List noborder>
@@ -365,7 +374,7 @@ export default class App extends React.Component {
                                 </div>
                             </ListItem>
                             {platform.isAndroid() && this.renderAndroidMenu()}
-                            <ListItem material nodivider onClick={this.guardarComo.bind(this)}>
+                            <ListItem material nodivider onClick={this.preferencias.bind(this)}>
                                 <div className="left">
                                     <Icon icon='md-settings' />
                                 </div>

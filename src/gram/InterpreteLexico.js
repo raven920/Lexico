@@ -26,6 +26,7 @@ var RefPhase = require('./walkers/RefPhase.js').RefPhase;
 var RunPhase = require('./walkers/RunPhase.js').RunPhase;
 
 var herramientas = require('runtime/herramientas.js');
+var Babel = require('babel-standalone');
 
 function InterpreteLexico(){
     this.errorListener = null;
@@ -105,7 +106,9 @@ InterpreteLexico.prototype.ejecutar = function(){
     if(this.errors == null || this.errors.length != 0){
         return false;
     }
-    var codigo = this.run.codigo;
+
+    var codigo = Babel.transform(this.run.codigo, { presets: ['es2015'] }).code;
+    console.log(codigo);
     try{
         (function(){ "use strict" //El alcance ya es estricto, esto no *debería* hace nada
             var nuevoeval = eval; //Hacemos nuestro eval con juegos de azar y mujerzuelas.

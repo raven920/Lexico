@@ -68,7 +68,7 @@ export default class SelecArchivo extends React.Component {
 
   leerFichero(){
       window.resolveLocalFileSystemURL(
-      cordova.file.externalRootDirectory+"Léxico",
+      cordova.file.externalRootDirectory+"Lexico",
       (fileSystem) => { //exito
           fileSystem.getFile(
               this.state.nomFich,
@@ -109,7 +109,7 @@ export default class SelecArchivo extends React.Component {
     window.resolveLocalFileSystemURL(
       cordova.file.externalRootDirectory,
       (fileSystem) => { //exito
-        var dataDir = fileSystem.getDirectory("Léxico",
+        var dataDir = fileSystem.getDirectory("Lexico",
           {create: true, exclusive: false},
           (dir) => {
             var reader = dir.createReader();

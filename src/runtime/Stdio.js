@@ -15,33 +15,25 @@
    limitaciones establecidos en la Licencia.
 */
 
-import 'react-hot-loader/patch';
-import {AppContainer} from 'react-hot-loader';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import {notification} from 'onsenui';
 
-require('onsenui/stylus/blue-basic-theme.styl');
-require('onsenui/css/onsenui.css');
+function Stdio(){}
 
-import Navegador from './Navegador';
-
-const rootElement = document.getElementById('app');
-
-ReactDOM.render(
-  <AppContainer>
-    <Navegador />
-  </AppContainer>,
-  rootElement
-);
-
-if (module.hot) {
-  module.hot.accept('./Navegador', () => {
-    const NextApp = require('./Navegador').default;
-    ReactDOM.render(
-      <AppContainer>
-         <NextApp />
-      </AppContainer>,
-      rootElement
-    );
-  });
+Stdio.muestre = function(texto, titulo){
+    return new Promise(r =>
+                       notification.alert({
+                            title: titulo||"Muestre...",
+                            message: texto,
+                            callback: r}));
 }
+
+Stdio.entre = function(texto, titulo){
+    console.log(titulo||"LEXICO");
+    return new Promise(r =>
+                       notification.prompt({
+                            title: titulo||"Entre...",
+                            message: texto,
+                            callback: r}));
+}
+
+exports.Stdio = Stdio;

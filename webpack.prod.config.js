@@ -49,6 +49,7 @@ module.exports = {
 
     alias: {
       webpack: path.join(cordovaNodeModules, 'webpack'),
+      'babel-polyfill': path.join(cordovaNodeModules, 'babel-polyfill'),
       'react-hot-loader': path.join(cordovaNodeModules, 'react-hot-loader'),
       'react-hot-loader/patch': path.join(cordovaNodeModules, 'react-hot-loader', 'patch')
     }
@@ -70,7 +71,10 @@ module.exports = {
         cacheDirectory: useCache,
 
         plugins: [
-          path.join(cordovaNodeModules, 'react-hot-loader', 'babel')
+          path.join(cordovaNodeModules, 'react-hot-loader', 'babel'),
+            [path.join(cordovaNodeModules, 'babel-plugin-flow-runtime'), {"assert": true,
+    "annotate": true}],
+             path.join(cordovaNodeModules, 'babel-plugin-transform-decorators-legacy')
         ]
       }
     }, {

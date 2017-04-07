@@ -1,21 +1,4 @@
-/*
-   Derechos de autor 2017 Fabián Ríos y Christian Delany
-
-   Autorizado en virtud de la Licencia de Apache, Versión 2.0 (la "Licencia");
-   se prohíbe utilizar este archivo excepto en cumplimiento de la Licencia.
-   Podrá obtener una copia de la Licencia en:
-
-       Inglés: http://www.apache.org/licenses/LICENSE-2.0
-       Español: https://www.moo.com/es/about/fonts/licences/apache-licence.html
-
-   A menos que lo exijan las leyes pertinentes o se haya establecido por escrito, el software
-   distribuido en virtud de la Licencia se distribuye “TAL CUAL”,
-   SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ya sean expresas o implícitas.
-   Véase la Licencia para consultar el texto específico relativo a los permisos y
-   limitaciones establecidos en la Licencia.
-*/
-
-// Generated from Lexico.g4 by ANTLR 4.6
+// Generated from /home/raven/IdeaProjects/antlrtest/grammar/Lexico.g4 by ANTLR 4.6
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 
@@ -34,6 +17,15 @@ LexicoListener.prototype.enterProg = function(ctx) {
 
 // Exit a parse tree produced by LexicoParser#prog.
 LexicoListener.prototype.exitProg = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#incluya.
+LexicoListener.prototype.enterIncluya = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#incluya.
+LexicoListener.prototype.exitIncluya = function(ctx) {
 };
 
 
@@ -118,6 +110,15 @@ LexicoListener.prototype.exitMuestre = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LexicoParser#ConsultaSencilla.
+LexicoListener.prototype.enterConsultaSencilla = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#ConsultaSencilla.
+LexicoListener.prototype.exitConsultaSencilla = function(ctx) {
+};
+
+
 // Enter a parse tree produced by LexicoParser#condVariando.
 LexicoListener.prototype.enterCondVariando = function(ctx) {
 };
@@ -181,15 +182,6 @@ LexicoListener.prototype.exitNoCond = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#llamadaFuncion.
-LexicoListener.prototype.enterLlamadaFuncion = function(ctx) {
-};
-
-// Exit a parse tree produced by LexicoParser#llamadaFuncion.
-LexicoListener.prototype.exitLlamadaFuncion = function(ctx) {
-};
-
-
 // Enter a parse tree produced by LexicoParser#DeclaracionUnaVar.
 LexicoListener.prototype.enterDeclaracionUnaVar = function(ctx) {
 };
@@ -208,12 +200,12 @@ LexicoListener.prototype.exitDeclaracionVariasVar = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#DeclaracionArreglos.
-LexicoListener.prototype.enterDeclaracionArreglos = function(ctx) {
+// Enter a parse tree produced by LexicoParser#constructor.
+LexicoListener.prototype.enterConstructor = function(ctx) {
 };
 
-// Exit a parse tree produced by LexicoParser#DeclaracionArreglos.
-LexicoListener.prototype.exitDeclaracionArreglos = function(ctx) {
+// Exit a parse tree produced by LexicoParser#constructor.
+LexicoListener.prototype.exitConstructor = function(ctx) {
 };
 
 
@@ -226,15 +218,6 @@ LexicoListener.prototype.exitUsoVar = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#Caracteres.
-LexicoListener.prototype.enterCaracteres = function(ctx) {
-};
-
-// Exit a parse tree produced by LexicoParser#Caracteres.
-LexicoListener.prototype.exitCaracteres = function(ctx) {
-};
-
-
 // Enter a parse tree produced by LexicoParser#UsoArreglo.
 LexicoListener.prototype.enterUsoArreglo = function(ctx) {
 };
@@ -244,12 +227,30 @@ LexicoListener.prototype.exitUsoArreglo = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#Entero.
-LexicoListener.prototype.enterEntero = function(ctx) {
+// Enter a parse tree produced by LexicoParser#UsoFuncion.
+LexicoListener.prototype.enterUsoFuncion = function(ctx) {
 };
 
-// Exit a parse tree produced by LexicoParser#Entero.
-LexicoListener.prototype.exitEntero = function(ctx) {
+// Exit a parse tree produced by LexicoParser#UsoFuncion.
+LexicoListener.prototype.exitUsoFuncion = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#Falso.
+LexicoListener.prototype.enterFalso = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Falso.
+LexicoListener.prototype.exitFalso = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#Cantidades.
+LexicoListener.prototype.enterCantidades = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Cantidades.
+LexicoListener.prototype.exitCantidades = function(ctx) {
 };
 
 
@@ -262,21 +263,12 @@ LexicoListener.prototype.exitParentesis = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#MenosUnario.
-LexicoListener.prototype.enterMenosUnario = function(ctx) {
+// Enter a parse tree produced by LexicoParser#UsoConsultable.
+LexicoListener.prototype.enterUsoConsultable = function(ctx) {
 };
 
-// Exit a parse tree produced by LexicoParser#MenosUnario.
-LexicoListener.prototype.exitMenosUnario = function(ctx) {
-};
-
-
-// Enter a parse tree produced by LexicoParser#Llamada.
-LexicoListener.prototype.enterLlamada = function(ctx) {
-};
-
-// Exit a parse tree produced by LexicoParser#Llamada.
-LexicoListener.prototype.exitLlamada = function(ctx) {
+// Exit a parse tree produced by LexicoParser#UsoConsultable.
+LexicoListener.prototype.exitUsoConsultable = function(ctx) {
 };
 
 
@@ -298,15 +290,6 @@ LexicoListener.prototype.exitSumaResta = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#MenorQue.
-LexicoListener.prototype.enterMenorQue = function(ctx) {
-};
-
-// Exit a parse tree produced by LexicoParser#MenorQue.
-LexicoListener.prototype.exitMenorQue = function(ctx) {
-};
-
-
 // Enter a parse tree produced by LexicoParser#Negacion.
 LexicoListener.prototype.enterNegacion = function(ctx) {
 };
@@ -316,57 +299,93 @@ LexicoListener.prototype.exitNegacion = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#MultDiv.
-LexicoListener.prototype.enterMultDiv = function(ctx) {
+// Enter a parse tree produced by LexicoParser#Caracteres.
+LexicoListener.prototype.enterCaracteres = function(ctx) {
 };
 
-// Exit a parse tree produced by LexicoParser#MultDiv.
-LexicoListener.prototype.exitMultDiv = function(ctx) {
-};
-
-
-// Enter a parse tree produced by LexicoParser#listaExpr.
-LexicoListener.prototype.enterListaExpr = function(ctx) {
-};
-
-// Exit a parse tree produced by LexicoParser#listaExpr.
-LexicoListener.prototype.exitListaExpr = function(ctx) {
+// Exit a parse tree produced by LexicoParser#Caracteres.
+LexicoListener.prototype.exitCaracteres = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#listaIdOArr.
-LexicoListener.prototype.enterListaIdOArr = function(ctx) {
+// Enter a parse tree produced by LexicoParser#Relacional.
+LexicoListener.prototype.enterRelacional = function(ctx) {
 };
 
-// Exit a parse tree produced by LexicoParser#listaIdOArr.
-LexicoListener.prototype.exitListaIdOArr = function(ctx) {
-};
-
-
-// Enter a parse tree produced by LexicoParser#arreglo.
-LexicoListener.prototype.enterArreglo = function(ctx) {
-};
-
-// Exit a parse tree produced by LexicoParser#arreglo.
-LexicoListener.prototype.exitArreglo = function(ctx) {
+// Exit a parse tree produced by LexicoParser#Relacional.
+LexicoListener.prototype.exitRelacional = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#IDFromIdOrArr.
-LexicoListener.prototype.enterIDFromIdOrArr = function(ctx) {
+// Enter a parse tree produced by LexicoParser#MultDivMod.
+LexicoListener.prototype.enterMultDivMod = function(ctx) {
 };
 
-// Exit a parse tree produced by LexicoParser#IDFromIdOrArr.
-LexicoListener.prototype.exitIDFromIdOrArr = function(ctx) {
+// Exit a parse tree produced by LexicoParser#MultDivMod.
+LexicoListener.prototype.exitMultDivMod = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#ArrFromIdOrArr.
-LexicoListener.prototype.enterArrFromIdOrArr = function(ctx) {
+// Enter a parse tree produced by LexicoParser#OMasBien.
+LexicoListener.prototype.enterOMasBien = function(ctx) {
 };
 
-// Exit a parse tree produced by LexicoParser#ArrFromIdOrArr.
-LexicoListener.prototype.exitArrFromIdOrArr = function(ctx) {
+// Exit a parse tree produced by LexicoParser#OMasBien.
+LexicoListener.prototype.exitOMasBien = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#Unario.
+LexicoListener.prototype.enterUnario = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Unario.
+LexicoListener.prototype.exitUnario = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#Verdadero.
+LexicoListener.prototype.enterVerdadero = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Verdadero.
+LexicoListener.prototype.exitVerdadero = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#YTambien.
+LexicoListener.prototype.enterYTambien = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#YTambien.
+LexicoListener.prototype.exitYTambien = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#usoListaExpr.
+LexicoListener.prototype.enterUsoListaExpr = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#usoListaExpr.
+LexicoListener.prototype.exitUsoListaExpr = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#listaVar.
+LexicoListener.prototype.enterListaVar = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#listaVar.
+LexicoListener.prototype.exitListaVar = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#variable.
+LexicoListener.prototype.enterVariable = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#variable.
+LexicoListener.prototype.exitVariable = function(ctx) {
 };
 
 

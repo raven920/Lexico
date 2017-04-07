@@ -22,6 +22,13 @@ var Alcance = require('../scope/Alcance.js').Alcance;
 var Simbolo = require('../scope/Simbolo.js').Simbolo;
 var SimboloFuncion = require('../scope/SimboloFuncion.js').SimboloFuncion;
 
+const clases = {
+    caracter: "caracter",
+    cantidad: "cantidad",
+    caracteres: "caracter",
+    cantidades: "cantidad"
+}
+
 function DefPhase(){
     LexicoListener.call(this);
     this.globales = null;
@@ -39,18 +46,18 @@ DefPhase.prototype.defineVar = function(nameToken,typeToken, dimension){
     if(!this.revisarAlcance(nameToken)){
         return;
     }
-
+    var tipo = clases[typeToken.getText()] || typeToken.getText()
     var symVar = new Simbolo({"nombre": nameToken.getText(),
-                             "tipo": {nombre: typeToken.getText(), dim: dimension},
+                             "tipo": {nombre: tipo, dim: dimension},
                              "linea": nameToken.getSymbol().line,
                              "columna": nameToken.getSymbol().column})
     this.alcanceActual.define(symVar);
 }
 
-DefPhase.prototype.defineVars = function(arr, idToken){
+DefPhase.prototype.defineVars = function(arr, claseToken){
     var i;
     for(i of arr){
-        this.defineVar(i["token"], idToken, i["dim"]);
+        this.defineVar(i["token"], claseToken, i["dim"]);
     }
 }
 
@@ -100,45 +107,37 @@ DefPhase.prototype.exitBloque = function(ctx){
 
 DefPhase.prototype.exitTarea = function(ctx){
     this.alcanceActual = this.alcanceActual.alcanceSuperior;
+
 }
 
-DefPhase.prototype.exitDeclaracionUnaVar = function(ctx){
-    this.defineVar(ctx.ID(0), ctx.ID(1), 0);
-}
+/* INICIO */
 
-DefPhase.prototype.enterDeclaracionVariasVar = function(ctx){
+
+DefPhase.prototype.exitConstructor = function(ctx){
     this.idStack.push([{token: ctx.ID(0), dim: 0}]);
 }
 
-DefPhase.prototype.enterDeclaracionArreglos
-    = DefPhase.prototype.enterUsoArreglo
-    = DefPhase.prototype.enterEntre
-    = DefPhase.prototype.enterCopieEn
-    = function(ctx) {
+DefPhase.prototype.exitDeclaracionUnaVar = function(ctx){
+    var clase = this.idStack.pop().pop();
+    this.defineVar(ctx.ID(0), clase["token"], 0);
+}
+
+DefPhase.prototype.enterListaVar = function(ctx){
     this.idStack.push([]);
 }
 
-DefPhase.prototype.exitUsoArreglo
-    = DefPhase.prototype.exitEntre
-    = DefPhase.prototype.exitCopieEn
-    = function(ctx){
+DefPhase.prototype.exitEntre
+    = DefPhase.prototype.exitCopieEn = function(ctx){
     this.idStack.pop();
 }
 
-DefPhase.prototype.exitIDFromIdOrArr = function(ctx) {
-    this.idStack[this.idStack.length-1].push({token: ctx.ID(), dim: 0});
-};
-
-DefPhase.prototype.exitArreglo = function(ctx) {
+DefPhase.prototype.exitVariable = function(ctx){
     this.idStack[this.idStack.length-1].push({token: ctx.ID(), dim: ctx.expr().length } );
-};
-
-DefPhase.prototype.exitDeclaracionVariasVar = function(ctx){
-    this.defineVars( this.idStack.pop() ,ctx.ID(1));
 }
 
-DefPhase.prototype.exitDeclaracionArreglos = function(ctx) {
-    this.defineVars( this.idStack.pop() ,ctx.ID(0));
+DefPhase.prototype.exitDeclaracionVariasVar = function(ctx){
+    var clase = this.idStack.pop().pop();
+    this.defineVars( this.idStack.pop(), clase["token"]);
 }
 
 exports.DefPhase = DefPhase;

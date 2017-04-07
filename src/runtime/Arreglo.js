@@ -15,74 +15,79 @@
    limitaciones establecidos en la Licencia.
 */
 
+
+import t, {reify} from 'flow-runtime';
+import type {Type} from 'flow-runtime';
+
+type NumeroNatural = number;
+const NumeroNaturalType = (reify: Type<NumeroNatural>);
+NumeroNaturalType.addConstraint((input: number) => {
+  if (input < 0 || input == Infinity || isNaN(input)) {
+    return 'los índices deben ser un números naturales';
+  }
+});
+
+type Cantidad = number;
+const CantidadType = (reify: Type<Cantidad>);
+CantidadType.addConstraint((input: number) => {
+  if (input == Infinity || isNaN(input)) {
+    return input+ ' no es un número válido';
+  }
+});
+
+
 /*
-    Creación de arreglo N-dimensional por Matthew Crumley
+    Creación de arreglo N-dimensional por Matthew Crumley,
     obtenido de: http://stackoverflow.com/a/966938
+    Modificada para incluir inicialización.
 */
-function crearArreglo(longitud) {
+
+function crearArreglo(longitud, ini) {
+
     var arr = new Array(longitud || 0),
         i = longitud;
-
-    if (arguments.length > 1) {
+    if(arguments.length == 2){
+		for(var j = 0; j < longitud; j++){
+            arr[j] = new (Function.prototype.bind.apply(ini["clase"], [ini["clase"]].concat(ini["params"])));
+        }
+    }
+    if (arguments.length > 2) {
         var args = Array.prototype.slice.call(arguments, 1);
         while(i--) arr[longitud-1 - i] = crearArreglo.apply(this, args);
     }
 
-    return arr;
+    return new Proxy(arr, arguments[arguments.length-1]);
 }
 
-function Arreglo(arr, nombre){
-    for(var i = 0; i < arr.length; i++){
-        if(typeof arr[i] == "number"){
-            if(arr[i] < 0){
-                throw "Declaración inválida: "+nombre+"["+arr+"]";
-            }
-        }else{
-            throw "Declaración inválida: "+nombre+"["+arr+"]";
+function getTipo(clase){
+    if(clase == Number){
+        return t.union(t.ref(Number), Cantidad);
+    }
+    if(clase == String){
+        return t.union(t.ref(String),t.string());
+    }
+    return t.ref(clase);
+}
+
+
+function Arreglo(arr: Array<NumeroNatural>, nombre: string, clase: Class<any>, params: Array){
+    var tipoObjeto = getTipo(clase);
+    console.log("tipoobjeto: "+tipoObjeto)
+    var maneja = {
+        get (arr, clave: NumeroNatural) {
+            if(clave >= arr.length)
+                throw "Indice fuera de rango "+ clave;
+            return arr[clave]
+        },
+        //hay que revisar el tipo de dato
+        set (arr, clave: NumeroNatural, valor) {
+            tipoObjeto.assert(valor);
+          if(clave >= arr.length)
+              throw "Indice fuera de rango "+ clave;
+          return true
         }
     }
-    this.nombre = nombre;
-    this.dim = arr.length;
-    this.size = arr;
-    this.array = crearArreglo.apply(this, arr);
-}
-
-Arreglo.prototype.revisarIndice = function(indice){
-    if(!Array.isArray(indice)
-       || indice.length != this.dim ){
-        return null;
-    }
-    for(var i = 0; i < indice.length; i++){
-        if(typeof indice[i] == "number"){
-            if(indice[i] < 0 || indice[i] >= this.size[i]){
-               throw "Índice fuera de rango: "+this.nombre+"["+indice+"]";
-            }
-        }else{
-            throw "Índice inválido: "+this.nombre+"["+indice+"]";
-        }
-    }
-}
-
-Arreglo.prototype.get = function(indice){
-    this.revisarIndice(indice);
-    var element = this.array;
-    for(var i of indice){
-        element = element[i];
-    }
-    if(element == undefined){
-        throw "No se ha inicializado: "+this.nombre+"["+indice+"]";
-    }
-    return element;
-}
-
-Arreglo.prototype.set = function(indice, objeto){
-    this.revisarIndice(indice);
-    var i;
-    var element = this.array;
-    for(i=0; i < this.dim-1; i++){
-        element = element[indice[i]];
-    }
-    element[indice[i]] = objeto;
+    return crearArreglo.apply(this, arr.concat({clase: clase, params: params}, maneja));
 }
 
 exports.Arreglo = Arreglo;

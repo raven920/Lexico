@@ -322,4 +322,4 @@ FileWriter.prototype.truncate = function(size) {
 };
 
 module.exports = FileWriter;
- (t
+   

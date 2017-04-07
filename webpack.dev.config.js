@@ -25,6 +25,7 @@ module.exports = {
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://0.0.0.0:8000/',
     'webpack/hot/only-dev-server',
+    'babel-polyfill',
     './src/main'
   ],
 
@@ -47,6 +48,7 @@ module.exports = {
     alias: {
       webpack: path.join(cordovaNodeModules, 'webpack'),
       'react-hot-loader': path.join(cordovaNodeModules, 'react-hot-loader'),
+      'babel-polyfill': path.join(cordovaNodeModules, 'babel-polyfill'),
       'react-hot-loader/patch': path.join(cordovaNodeModules, 'react-hot-loader', 'patch'),
       'webpack-dev-server/client': path.join(cordovaNodeModules, 'webpack-dev-server', 'client')
     }
@@ -68,7 +70,10 @@ module.exports = {
         cacheDirectory: true,
 
         plugins: [
-          path.join(cordovaNodeModules, 'react-hot-loader', 'babel')
+          path.join(cordovaNodeModules, 'react-hot-loader', 'babel'),
+            [path.join(cordovaNodeModules, 'babel-plugin-flow-runtime'), {"assert": true,
+    "annotate": true}],
+             path.join(cordovaNodeModules, 'babel-plugin-transform-decorators-legacy')
         ]
       }
     }, {

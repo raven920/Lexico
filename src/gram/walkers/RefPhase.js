@@ -44,16 +44,24 @@ RefPhase.prototype.nuevoError = function(idSimbolo, mensaje){
 }
 
 RefPhase.prototype.revisarAlcance = function(idToken){
-    var name = idToken.getSymbol();
+
+    var name = idToken["token"].getSymbol();
     var variable = this.alcanceActual.resolve(name.text);
     if(variable == null){
-        this.nuevoError(name, "'"+idToken.getText()+"' no ha sido declarado.");
-    }else if(variable instanceof SimboloFuncion){
-        this.nuevoError(name, "'"+idToken.getText()+"' no es una variable.");
+        //si no es una funcion existente...
+        if(idToken["tipo"] != 'f'){
+            this.nuevoError(name, "'"+idToken["token"].getText()+"' no ha sido declarado.");
+        }else if( window[idToken["token"].getText()] == undefined){
+            this.nuevoError(name, "'"+idToken["token"].getText()+"' no existe.");
+        }
     }else if(this.alcanceActual.getFuncionSuperior() == variable.alcance.getFuncionSuperior()){
         if(   name.line < variable.linea
           || (name.line == variable.linea && name.column < variable.columna)){
-            this.nuevoError(name, "'"+idToken.getText()+"' debe ser declarada primero." );
+            this.nuevoError(name, "'"+idToken["token"].getText()+"' debe ser declarada primero." );
+        }else if('a' == idToken["tipo"]
+             && idToken["validar"]
+             && variable.tipo["dim"] != idToken["dim"]){
+                this.nuevoError(name, "Dimensiones de '"+idToken["token"].getText()+"' son incorrectas" );
         }
     }
     return variable;
@@ -64,12 +72,12 @@ RefPhase.prototype.enterProg = function(ctx){
 }
 
 RefPhase.prototype.enterTarea = function(ctx){
-
     this.alcanceActual = this.alcances.get(ctx);
 }
 
 RefPhase.prototype.exitTarea = function(ctx){
     this.alcanceActual = this.alcanceActual.alcanceSuperior;
+
 }
 
 RefPhase.prototype.enterBloque = function(ctx){
@@ -78,6 +86,17 @@ RefPhase.prototype.enterBloque = function(ctx){
 
 RefPhase.prototype.exitBloque = function(ctx){
     this.alcanceActual = this.alcanceActual.alcanceSuperior;
+}
+
+/*
+RefPhase.prototype.enterUsoConsultable = function(ctx){
+    this.idStack.push([]);
+}
+
+RefPhase.prototype.exitUsoConsultable = function(ctx){
+    var cadenaConsultable = this.idStack.pop();
+    this.revisarAlcance(cadenaConsultable[0]);
+    //Solo revisamos el primero
 }
 
 RefPhase.prototype.exitArreglo = function(ctx){
@@ -94,25 +113,13 @@ RefPhase.prototype.exitIDFromIdOrArr = function(ctx) {
 };
 
 RefPhase.prototype.enterUsoArreglo
-    =   RefPhase.prototype.enterEntre
-    =   RefPhase.prototype.enterCopieEn
     =   RefPhase.prototype.enterDeclaracionArreglos
     =   RefPhase.prototype.enterDeclaracionVariasVar
     =   function(ctx) {
     this.idStack.push([]);
 }
 
-RefPhase.prototype.exitCopieEn
-    =   RefPhase.prototype.exitEntre
-    =   function(ctx){
-    var i;
-    var l = this.idStack.pop();
-    for(i of l ){
-        this.revisarAlcance(i);
-    }
-}
-RefPhase.prototype.exitUsoArreglo
-    =   RefPhase.prototype.exitDeclaracionArreglos
+RefPhase.prototype.exitDeclaracionArreglos
     =   RefPhase.prototype.exitDeclaracionVariasVar
     =   function(ctx){
     this.idStack.pop();
@@ -124,10 +131,79 @@ RefPhase.prototype.enterCondVariando = function(ctx){
     if( variable != null && variable.tipo["dim"] !=0){
         this.nuevoError(ctx.ID().getSymbol(), "No use arreglos como variables");
     }
+}*/
+/*
+
+INICIA
+
+*/
+
+RefPhase.prototype.exitConstructor = function(ctx){
+    //REVISAR ALCANCE
+
 }
 
-RefPhase.prototype.exitUsoVar = function(ctx) {
-    var variable = this.revisarAlcance(ctx.ID(0));
+RefPhase.prototype.enterConsultaSencilla
+    = RefPhase.prototype.enterUsoConsultable = function(ctx){
+    this.idStack.push([]);
+}
+
+
+RefPhase.prototype.exitUsoVar = function(ctx){
+    this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: 0, tipo: 'v'});
+}
+
+RefPhase.prototype.exitUsoArreglo = function(ctx){
+    var vali = true;
+    if(ctx.children[ctx.children.length-1].getText()=="no_validar"){
+        vali = false;
+    }
+    this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: ctx.expr().length, tipo: 'a', validar: vali});
+}
+
+RefPhase.prototype.enterCondVariando = function(ctx){
+    this.idStack.push([]);
+}
+
+RefPhase.prototype.exitCondVariando = function(ctx){
+    var sobre = this.idStack.pop().pop();
+    if(sobre["tipo"] == 'f'){
+        this.nuevoError(sobre["token"].getSymbol(), "no se puede variar sobre una funcion");
+    }else{
+        sobre["validar"]= true;
+        this.revisarAlcance(sobre);
+    }
+
+
+}
+RefPhase.prototype.exitUsoFuncion = function(ctx){
+    this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: 0, tipo: 'f'});
+}
+
+RefPhase.prototype.exitConsultaSencilla
+    = RefPhase.prototype.exitUsoConsultable = function(ctx){
+    this.revisarAlcance(this.idStack.pop().shift());
+}
+
+RefPhase.prototype.enterListaVar = function(ctx){
+    this.idStack.push([]);
+}
+
+RefPhase.prototype.exitCopieEn
+    =   RefPhase.prototype.exitEntre
+    = function(ctx){
+    var listaV = this.idStack.pop();
+    for(var i of listaV){
+        this.revisarAlcance(i);
+    }
+}
+
+RefPhase.prototype.exitVariable = function(ctx){
+    this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: ctx.expr().length, tipo: 'a', validar: true});
+}
+
+RefPhase.prototype.exitDeclaracionVariasVar = function(ctx){
+    this.idStack.pop();
 }
 
 exports.RefPhase = RefPhase;

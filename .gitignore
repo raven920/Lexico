@@ -1,12 +1,7 @@
 node_modules
-/platforms/android/CordovaLib/build/
-/platforms/android/res/mipmap-xxxhdpi/icon.png
-/platforms/android/res/mipmap-xxhdpi/icon.png
-/platforms/android/res/mipmap-xhdpi/icon.png
-/platforms/android/res/mipmap-mdpi/icon.png
-/platforms/android/res/mipmap-ldpi/icon.png
-/platforms/android/res/mipmap-hdpi/icon.png
-/platforms/android/assets/
+/platforms/android/
+/platforms/platforms.json
+/plugins/
 /www/vendor.bundle.js
 /www/index.html
 /www/app.css
@@ -15,3 +10,4 @@ node_modules
 /platforms/android/.gradle/
 /platforms/android/android.json
 !/parche/node_modules
+/plugins/fetch.json

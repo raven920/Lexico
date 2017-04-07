@@ -13,7 +13,7 @@ En la actualidad, el proyecto está en una etapa temprana de desarrollo y está 
 | [Cordova] | Framework de desarrollo, permite escalabilidad a diferentes plataformas móviles | [Apache 2][CordovaL] |
 | [ReactJS] | Diseño de interfaces gráficas de modo declarativo y basado en componentes.  | [Facebook BSD][ReactJSL]+[Patents][ReactJSLP] |
 | [ OnsenUI ] | Integra ReactJS con Cordova y provee elementos de la interfaz que siguen los patrones de [Material Design](https://material.io/guidelines/) | [Apache 2][OnsenUIL] | 
-| [ React-Ace] | Integra el editor [Ace](https://ace.c9.io/) con ReactJS. | [MIT][React-AceL] |
+| [ React-CodeMirror] | Integra el editor [CodeMirror](https://codemirror.net/) con ReactJS. | [MIT][React-CodeMirrorL] |
 | [ANTLR4] | Generador de analizadores lexicograficos y sintácticos. | [BSD-new][Antlr4L] |
 
 ### Empaquetados / Ejecutables
@@ -36,14 +36,14 @@ $ git clone https://github.com/raven920/Lexico.git
 $ cd Lexico
 $ npm install
 ```
-Antes de poder ejecutar, se hace necesario aplicar un parche que permitirá a Antlr4 correr correctamente en el ambiente de Cordova y Onsen, este parche tambien integra las definiciones del lenguaje Lexico al editor *Ace*. 
+Antes de poder ejecutar, se hace necesario aplicar un parche que permitirá a Antlr4 correr correctamente en el ambiente de Cordova y Onsen, este parche tambien integra las definiciones del lenguaje Lexico al editor *CodeMirror*. 
 
 **Nota:** Debido a que en Windows no existe el comando *patch* [por defecto](http://gnuwin32.sourceforge.net/packages/patch.htm), se incluyó una copia de los ficheros modificados por el parche. Solo deberá copiar todos los contenidos del subdirectorio *parche* al directorio raiz del proyecto. 
 
 En caso de estar en un entorno que cuente con el comando *patch* solo debe ejecutar.
 
 ```sh
-$ patch -p0 < parche/antlr4-ace.patch
+$ patch -p0 < parche/antlr4-codemirror.patch
 ```
 
 Ya está todo listo para probar el proyecto. Puede hacerlo en el navegador ejecutando
@@ -80,7 +80,7 @@ Este el código de este proyecto está cobijado por la licencia Apache-2.0.
    [Cordova]: <https://cordova.apache.org/>
    [OnsenUI]: <https://onsen.io/>
    [ReactJS]: <https://facebook.github.io/react/>
-   [React-Ace]: <https://github.com/securingsincity/react-ace>
+   [React-CodeMirror]: <https://github.com/attaboy/react-codemirror>
    [ANTLR4]: <http://www.antlr.org/index.html>
    
 
@@ -89,4 +89,4 @@ Este el código de este proyecto está cobijado por la licencia Apache-2.0.
    [ReactJSL]: <https://github.com/facebook/react/blob/master/LICENSE>
    [ReactJSLP]: <https://github.com/facebook/react/blob/master/PATENTS>
    [Antlr4L]: <http://www.antlr.org/license.html>
-   [React-AceL]: <https://github.com/securingsincity/react-ace/blob/master/LICENSE>
+   [React-CodeMirrorL]: <https://github.com/attaboy/react-codemirror/blob/master/LICENSE>

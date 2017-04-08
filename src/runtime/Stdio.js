@@ -28,7 +28,6 @@ Stdio.muestre = function(texto, titulo){
 }
 
 Stdio.entre = function(texto, titulo){
-    console.log(titulo||"LEXICO");
     return new Promise(r =>
                        notification.prompt({
                             title: titulo||"Entre...",

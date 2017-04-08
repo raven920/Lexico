@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 npm install
 cordova platform add android
 monaca plugin add cordova-plugin-file

@@ -1,6 +1,6 @@
 #   Lexico para Android
 
-*Lexico para Android* es la implementación de un editor e intérprete del lenguaje de programación [Lexico] en dispositivos móviles con sistema operativo Android. Lexico es un lenguaje de programación didáctico en español que facilita el aprendizaje y la enseñanza de la programación. 
+*Lexico para Android* es la implementación de un editor e intérprete del lenguaje de programación [LEXICO] en dispositivos móviles con sistema operativo Android. Lexico significa *L*enguaje *ex*perimental *i*ntroductorio a la *c*omputación con *o*bjetos, es un lenguaje de programación didáctico en español que facilita el aprendizaje y la enseñanza de la programación. 
 
 ###  Acerca del desarrollo
 
@@ -18,52 +18,55 @@ En la actualidad, el proyecto está en una etapa temprana de desarrollo y está 
 
 ### Empaquetados / Ejecutables
 
-Debido al estado actual del desarrollo no se cuenta con una versión estable. Si se considera un *[aventurero](http://i.imgur.com/nJi4cyO.jpg)*, puede seguir las instrucciones a continuación para construir usted mismo el software.
+Debido al estado actual del desarrollo no se cuenta con una versión estable. Si se considera un *[aventurero](http://i.imgur.com/kTXI282.png)*, puede seguir las instrucciones a continuación para construir usted mismo el software.
 
-### Construcción de la aplicación
+##### Configuración del entorno de desarrollo
 
-Se asume que cuenta con un entorno donde se encuentra instalado [NodeJS con NPM](https://nodejs.org/es/download/package-manager/) y [Apache Cordova](https://cordova.apache.org/#getstarted) con las [dependencias necesarias para desarrollar para Android](https://cordova.apache.org/docs/es/latest/guide/platforms/android/index.html). En resumen, asegúrese de que puede construir un proyecto creado usando Apache Cordova.
+Se asume que cuenta con un entorno donde se encuentra instalado [Git](https://git-scm.com/downloads), [NodeJS con NPM](https://nodejs.org/es/download/package-manager/) y [Apache Cordova](https://cordova.apache.org/#getstarted) con las [dependencias necesarias para desarrollar para Android](https://cordova.apache.org/docs/es/latest/guide/platforms/android/index.html). En resumen, asegúrese de que puede construir un proyecto creado usando Apache Cordova.
 
-Por facilidad, se usa [Monaca CLI](https://monaca.io/cli.html) como herramienta de desarrollo, pruebas y construcción de *Lexico para Android*. Las siguientes instrucciones han sido probadas bajo la distribución ArchLinux, sin embargo deberían funcionar de manera similar en otras distribuciones de Linux e incluso entornos Windows o Mac. Los comandos que se encuentran consignados en esta guía deben ser ejecutados en una shell (Terminal en Linux o PowerShell en Windows). Para instalar Monaca CLI ejecute el siguiente comando:
+Por facilidad, se usa [Monaca CLI](https://monaca.io/cli.html) como herramienta de desarrollo, pruebas y construcción de *Lexico para Android*. Las siguientes instrucciones han sido probadas bajo la distribución ArchLinux, sin embargo deberían funcionar de manera similar en otras distribuciones de Linux e incluso entornos Windows o Mac. Los comandos que se encuentran consignados en esta guía deben ser ejecutados en una shell (Terminal en Linux o [MinGW/MSYS](https://sourceforge.net/projects/mingw/files/Installer/) en Windows). Para instalar Monaca CLI ejecute el siguiente comando:
 
 ```sh
 $ npm -g install monaca
 ```
 
-El siguiente paso es descargar el código fuente de *Lexico para Android* e instalar las dependencias del proyecto
+El siguiente paso es descargar el código fuente de *Lexico para Android*.
+
 ```sh
 $ git clone https://github.com/raven920/Lexico.git
-$ cd Lexico
-$ npm install
-$ cordova platform add android
-$ monaca plugin add cordova-plugin-file
+$ cd ./Lexico
 ```
-Antes de poder ejecutar, se hace necesario aplicar un parche que permitirá a Antlr4 correr correctamente en el ambiente de Cordova y Onsen, este parche tambien integra las definiciones del lenguaje Lexico al editor *CodeMirror*. 
 
-**Nota:** Debido a que en Windows no existe el comando *patch* [por defecto](http://gnuwin32.sourceforge.net/packages/patch.htm), se incluyó una copia de los ficheros modificados por el parche. Solo deberá copiar todos los contenidos del subdirectorio *parche* al directorio raiz del proyecto. 
-
-En caso de estar en un entorno que cuente con el comando *patch* solo debe ejecutar.
-
+Se hace necesario instalar las dependencias y aplicar una serie de parches que permitirán adaptar el editor CodeMirror para ser usado en móviles, agregar las definiciones del lenguaje Lexico al editor *CodeMirror* y transpilar el código del proyecto. Para esto, se incluye entre el código fuente un script que se encarga de hacer todo esto por usted. Para ejecutarlo use la siguiente instrucción:
 
 ```sh
-$ patch -p0 < parche/antlr4-codemirror.patch
+$ sh ./configurar.sh
 ```
 
-Ya está todo listo para probar el proyecto. Puede hacerlo en el navegador ejecutando
+
+Ya está todo listo para probar el proyecto.
+
+##### Probar el proyecto
+
+Para probar el editor e intérprete de manera local en el navegador, debe ejecutar el siguiente comando en la shell:
+
 ```sh
 $ monaca preview
 ```
+
 Podrá acceder a la aplicación usando la URL http://127.0.0.1:8000 en su navegador favorito.
 También es posible probar el proyecto en un emulador, smartphone o tableta usando [Monaca Debugger](https://docs.monaca.io/en/quick_start/cli/testing_debugging/).
 
+Tenga en cuenta que esta manera de probar el proyecto tiene limitaciones como la imposibilidad de acceder al sistema de archivos de la máquina. Para probarlo en todo su esplendor, instalelo en un dispositivo Android.
+
 ##### Construir el proyecto
 
-Si desea construir el proyecto para Android, primero se debe ejecutar el [transpiler](https://onsen.io/blog/monaca-cli-transpile/) que se encarga de transformar el código del intérprete de Lexico en un código que Cordova pueda ejecutar. Normalmente esta operación debería ser llevada a cabo automáticamente por *Monaca* al construir el proyecto, pero se sugiere hacerlo de manera manual usando la siguiente instrucción:
+Si desea construir el proyecto para Android, primero se sugiere ejecutar el [transcompilador](https://onsen.io/blog/monaca-cli-transpile/) que se encarga de transformar el código del intérprete de Lexico en un código que Cordova pueda ejecutar. Normalmente esta operación debería ser llevada a cabo automáticamente por *Monaca* al construir el proyecto, pero se sugiere hacerlo de manera manual usando la siguiente instrucción:
 ```sh
 $ monaca transpile
 ```
 
-Una vez se genera el código con el transpiler, se puede construir el instalador para Android ejecutando:
+El siguiente paso es construir el instalador para Android ejecutando:
 ```sh
 $ monaca build android
 ```
@@ -79,7 +82,7 @@ Este proyecto forma parte del trabajo de grado llevado a cabo por Christian Dela
 
 Este el código de este proyecto está cobijado por la licencia Apache-2.0.
 
-   [Lexico]: <http://lexico.mobi/>
+   [LEXICO]: <http://lexico.mobi/>
    [Cordova]: <https://cordova.apache.org/>
    [OnsenUI]: <https://onsen.io/>
    [ReactJS]: <https://facebook.github.io/react/>

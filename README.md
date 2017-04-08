@@ -37,14 +37,12 @@ $ git clone https://github.com/raven920/Lexico.git
 $ cd ./Lexico
 ```
 
-Se hace necesario instalar las dependencias y aplicar una serie de parches que permitirán adaptar el editor CodeMirror para ser usado en móviles, agregar las definiciones del lenguaje Lexico al editor *CodeMirror* y transpilar el código del proyecto. Para esto, se incluye entre el código fuente un script que se encarga de hacer todo esto por usted. Para ejecutarlo use la siguiente instrucción:
+Se hace necesario instalar las dependencias y aplicar una serie de parches que permitirán adaptar el editor CodeMirror para ser usado en móviles, agregar las definiciones del lenguaje Lexico al editor *CodeMirror* y transpilar el código del proyecto. Para esto, se incluye entre el código fuente un script que se encarga de hacer todo esto por usted.  Para ejecutarlo use la siguiente instrucción:
 
 ```sh
 $ sh ./configurar.sh
 ```
-
-
-Ya está todo listo para probar el proyecto.
+Este script de configuración solo ha de ser ejecutado una vez luego de descargado el código fuente. 
 
 ##### Probar el proyecto
 

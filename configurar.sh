@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 npm install
 cordova platform add android
 monaca plugin add cordova-plugin-file
@@ -11,4 +11,3 @@ cd ../..
 rm -rf node_modules/react-codemirror
 mv parche/react-codemirror node_modules/
 cp -rf parche/node_modules/* node_modules/
-monaca transpile

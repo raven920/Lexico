@@ -1,6 +1,6 @@
 #   Lexico para Android
 
-*Lexico para Android* es la implementación de un editor e intérprete del lenguaje de programación [LEXICO] en dispositivos móviles con sistema operativo Android. Lexico significa *L*enguaje *ex*perimental *i*ntroductorio a la *c*omputación con *o*bjetos, es un lenguaje de programación didáctico en español que facilita el aprendizaje y la enseñanza de la programación. 
+*Lexico para Android* es la implementación de un editor e intérprete del lenguaje de programación [LEXICO] en dispositivos móviles con sistema operativo Android. Lexico significa **L**enguaje **ex**perimental **i**ntroductorio a la **c**omputación con **o**bjetos, es un lenguaje de programación didáctico en español que facilita el aprendizaje y la enseñanza de la programación. 
 
 ###  Acerca del desarrollo
 

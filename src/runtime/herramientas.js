@@ -17,5 +17,6 @@
 var archivos = require('./archivos.js');
 exports.Archivo = archivos.Archivo;
 exports.Escritor = archivos.Escritor;
+exports.Lector = archivos.Lector;
 exports.Arreglo = require('./Arreglo.js').Arreglo;
 exports.Stdio = require("./Stdio.js").Stdio;

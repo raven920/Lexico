@@ -40,6 +40,7 @@ RunPhase.prototype.enterProg = function(ctx){
     this.idn += "    ";
     this.codigo += this.idn + "var Archivo = h.Archivo;\n";
     this.codigo += this.idn + "var Escritor = h.Escritor;\n";
+    this.codigo += this.idn + "var Lector = h.Lector;\n";
     this.codigo += this.idn + "var Arreglo = h.Arreglo;\n";
     this.codigo += this.idn + "var muestre = h.Stdio.muestre;\n";
     this.codigo += this.idn + "var entre = h.Stdio.entre;\n";
@@ -75,14 +76,14 @@ RunPhase.prototype.exitBloque = function(ctx){
     this.codigo += this.idn + "}\n";
 }
 
-RunPhase.prototype.definirVariables = function(l, tipo, constParams){
+RunPhase.prototype.definirVariables = function(l, tipo, constParams, noCrear){
     if(l.length == 0){
         return;
     }
     this.codigo += this.idn;
     for(var i of l){
 
-        this.codigo += tipos.declaracion(this.nombreVar(i["token"]), i["indices"], tipo, constParams);
+        this.codigo += tipos.declaracion(this.nombreVar(i["token"]), i["indices"], tipo, constParams, noCrear);
         //tipos.declaracion("x", [2,3], "cantidad", [""]);
     }
     this.codigo += "\n";
@@ -209,7 +210,8 @@ RunPhase.prototype.enterListaVar = function(ctx){
 RunPhase.prototype.exitDeclaracionUnaVar = function(ctx){
     var clase = this.idModStack.pop().pop();
     var constParams = this.exprStack.pop();
-    this.definirVariables([{token: ctx.ID(0).getSymbol(), indices: []}], clase["token"].text, constParams);
+    var noCrear= ctx.children[ctx.children.length-1] == 'no_crear';
+    this.definirVariables([{token: ctx.ID(0).getSymbol(), indices: []}], clase["token"].text, constParams, noCrear);
 }
 
 
@@ -233,7 +235,8 @@ RunPhase.prototype.exitDeclaracionVariasVar = function(ctx){
     var clase = this.idModStack.pop().pop();
     var variables = this.idModStack.pop();
     var constParams = this.exprStack.pop();
-    this.definirVariables(variables, clase["token"].text, constParams);
+    var noCrear= ctx.children[ctx.children.length-1] == 'no_crear';
+    this.definirVariables(variables, clase["token"].text, constParams, noCrear);
 }
 
 RunPhase.prototype.exitExprCond = function(ctx){

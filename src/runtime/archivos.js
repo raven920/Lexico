@@ -46,18 +46,36 @@ Archivo.prototype.demeEscritor = function(){
         }
         r();
         return new Promise(c=>c());
-    }).then(()=>{
-        return new Promise(
-            (exito, falla) => this.archivo.createWriter(exito,falla));
-    }).then((escritor)=>{
-        return new Promise(exito=>{
+    }).then(()=>
+        new Promise(
+            (exito, falla) => this.archivo.createWriter(exito,falla))
+    ).then((escritor)=>new Promise(
+        exito => {
             exito(new Escritor(escritor));
-        });
-    });
+        }));
+}
+
+Archivo.prototype.demeLector = function(){
+    return new Promise(r =>{
+        if(this.archivo == null){
+            return this.abraArchivo().then(()=>r());
+        }
+        r();
+        return new Promise(c=>c());
+    }).then(()=>new Promise(
+            (exito,falla) => this.archivo.file(exito,falla))
+    ).then((archivoObj) =>
+        new Promise( (exito,falla) =>{
+            var lector = new FileReader();
+            lector.onloadend = function(){
+                exito(new Lector(this.result))
+            }
+            lector.readAsText(archivoObj);
+            }));
 }
 
 function Escritor(escritor){
-    this.escritor = null
+    this.escritor = null;
     if(escritor != undefined){
         this.escritor = escritor
     }
@@ -71,6 +89,28 @@ Escritor.prototype.escriba = function(texto){
     }
 }
 
+function Lector(texto){
+    this.texto = null;
+    this.lineas = null;
+    if(texto != undefined){
+        this.texto = texto;
+        this.lineas = texto.split("\n");
+    }
+}
 
+Lector.prototype.leaTodo = function(){
+    if(this.texto == null){
+        throw "El escritor no está asociado a un archivo"
+    }
+    return this.texto;
+}
+
+Lector.prototype.leaLinea = function(){
+    if(this.lineas != null){
+        return this.lineas.shift() || null;
+    }
+}
+
+exports.Lector = Lector;
 exports.Escritor = Escritor;
 exports.Archivo = Archivo;

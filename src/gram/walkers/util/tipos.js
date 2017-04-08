@@ -23,22 +23,27 @@ const clases = {
     cantidades: "Number"
 }
 
-function declaracion(nombre,dim,clase,constructor){
+function declaracion(nombre,dim,clase,constructor, noCrear){
 
     if(clase.toLowerCase() in clases){
         clase = clases[clase.toLowerCase()];
     }
 
-    var codigo = "var "+nombre+" = new ";
+    var codigo = "var "+nombre;
+
     if(dim.length != 0){
-        codigo += "Arreglo("
+        codigo += " = new Arreglo("
         codigo += "["+dim.join(", ")+"],";
         codigo += "'"+nombre+"', "+clase+", ";
-        codigo += "["+constructor.join(", ")+"]"
-        codigo += "); ";
-    }else{
-        codigo += clase+"("+constructor.join(", ")+");";
+        codigo += "["+constructor.join(", ")+"],"
+        codigo += noCrear
+        codigo += ")";
+    }else if(!noCrear){
+        codigo += " = new "+clase+"("+constructor.join(", ")+")";
     }
+    codigo += ";"
+
+
     return codigo;
 }
 

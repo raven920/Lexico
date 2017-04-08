@@ -46,7 +46,7 @@ function crearArreglo(longitud, ini) {
 
     var arr = new Array(longitud || 0),
         i = longitud;
-    if(arguments.length == 2){
+    if(arguments.length == 2 && !ini["no_crear"]){
 		for(var j = 0; j < longitud; j++){
             arr[j] = new (Function.prototype.bind.apply(ini["clase"], [ini["clase"]].concat(ini["params"])));
         }
@@ -70,7 +70,7 @@ function getTipo(clase){
 }
 
 
-function Arreglo(arr: Array<NumeroNatural>, nombre: string, clase: Class<any>, params: Array){
+function Arreglo(arr: Array<NumeroNatural>, nombre: string, clase: Class<any>, params: Array, noCrear: boolean){
     var tipoObjeto = getTipo(clase);
     console.log("tipoobjeto: "+tipoObjeto)
     var maneja = {
@@ -87,7 +87,7 @@ function Arreglo(arr: Array<NumeroNatural>, nombre: string, clase: Class<any>, p
           return true
         }
     }
-    return crearArreglo.apply(this, arr.concat({clase: clase, params: params}, maneja));
+    return crearArreglo.apply(this, arr.concat({clase: clase, params: params, no_crear: noCrear}, maneja));
 }
 
 exports.Arreglo = Arreglo;

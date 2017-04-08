@@ -32,7 +32,18 @@ before_script:
   - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-google-m2repository
   - export ANDROID_HOME=$PWD/android-sdk-linux
   - export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/25.0.2
-  - ./configurar.sh
+  - cordova platform add android
+  - monaca plugin add cordova-plugin-file
+  - cd ./parche
+  - git clone https://github.com/attaboy/react-codemirror.git
+  - cd react-codemirror
+  - git checkout set_options_only_if_changed
+  - rm -rf .git
+  - cd ../..
+  - rm -rf node_modules/react-codemirror
+  - mv parche/react-codemirror node_modules/
+  - cp -rf parche/node_modules/* node_modules/
+
 
 script:
   - monaca transpile

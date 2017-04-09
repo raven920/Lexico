@@ -10,7 +10,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - openjdk-7-jdk
+    - openjdk-8-jdk
     - lib32stdc++6
     - lib32z1
 env:
@@ -20,6 +20,9 @@ install:
   - npm install -g cordova
   - npm install -g monaca
   - npm install
+  - cd ~/.cordova
+  - npm install webpack babel-core babel-loader babel-preset-env babel-preset-es2015 babel-preset-react babel-preset-stage-2 babel-plugin-flow-runtime babel-polyfill html-webpack-plugin
+  - cd ~/build/raven920/Lexico
 
 before_script:
   - mkdir android-sdk-linux && cd android-sdk-linux && wget http://dl.google.com/android/repository/tools_r25.2.3-linux.zip && unzip tools_r25.2.3-linux.zip && cd ..
@@ -32,6 +35,7 @@ before_script:
   - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-google-m2repository
   - export ANDROID_HOME=$PWD/android-sdk-linux
   - export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/25.0.2
+
   - cordova platform add android
   - monaca plugin add cordova-plugin-file
   - cd ./parche

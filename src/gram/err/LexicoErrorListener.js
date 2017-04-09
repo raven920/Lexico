@@ -37,8 +37,8 @@ LexicoErrorListener.prototype.syntaxError = function(recognizer, offendingSymbol
         }
     }else{
 
-        /*var expecting = recognizer.getExpectedTokens();
-        var esperando = expecting.toString(recognizer.literalNames, recognizer.symbolicNames);  */
+        var expecting = recognizer.getExpectedTokens();
+        var esperando = expecting.toString(recognizer.literalNames, recognizer.symbolicNames);
 
         if(msg.includes("extraneous input")){
             problema['recomendacion'] = "no se esperaba '"+offendingSymbol.text +"'"/*+" pruebe: "+esperando*/;

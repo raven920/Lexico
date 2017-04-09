@@ -122,6 +122,18 @@ RunPhase.prototype.exitCantidades = function(ctx){
     this.exprStack[this.exprStack.length-1].push(ctx.INT(0).getText());
 }
 
+RunPhase.prototype.exitIgual = function(ctx){
+    var expr2 = this.exprStack[this.exprStack.length-1].pop();
+    var expr1 = this.exprStack[this.exprStack.length-1].pop();
+    this.exprStack[this.exprStack.length-1].push(expr1+" == "+expr2);
+}
+
+RunPhase.prototype.exitDiferente = function(ctx){
+    var expr2 = this.exprStack[this.exprStack.length-1].pop();
+    var expr1 = this.exprStack[this.exprStack.length-1].pop();
+    this.exprStack[this.exprStack.length-1].push(expr1+" != "+expr2);
+}
+
 RunPhase.prototype.exitYTambien = function(ctx){
     var expr2 = this.exprStack[this.exprStack.length-1].pop();
     var expr1 = this.exprStack[this.exprStack.length-1].pop();
@@ -147,11 +159,23 @@ RunPhase.prototype.exitUnario = function(ctx){
 RunPhase.prototype.exitMultDivMod
     =   RunPhase.prototype.exitSumaResta
     =   RunPhase.prototype.exitRelacional
-    =   RunPhase.prototype.exitIgualdad
     =   function(ctx){
     var expr2 = this.exprStack[this.exprStack.length-1].pop();
     var expr1 = this.exprStack[this.exprStack.length-1].pop();
     this.exprStack[this.exprStack.length-1].push(expr1+ctx.children[1].getText()+expr2);
+}
+
+/*
+    Para js -2 ** 2 es ambiguo. Para solucionar se encierra el primer operador
+    en paréntesis.
+    (-2)**2 = 4
+
+    Este operador es asociativo hacia la derecha
+*/
+RunPhase.prototype.exitPotencia = function(ctx){
+    var expr2 = this.exprStack[this.exprStack.length-1].pop();
+    var expr1 = this.exprStack[this.exprStack.length-1].pop();
+    this.exprStack[this.exprStack.length-1].push('('+expr1+') **'+expr2);
 }
 
 RunPhase.prototype.exitUsoFuncion = function(ctx){
@@ -187,7 +211,6 @@ RunPhase.prototype.enterExprMientras
 
 RunPhase.prototype.exitUsoConsultable = function(ctx){
     var secuencia = this.exprStack.pop();
-    console.log(secuencia);
     this.exprStack[this.exprStack.length-1].push("(await "+secuencia.join(".")+")");
 }
 

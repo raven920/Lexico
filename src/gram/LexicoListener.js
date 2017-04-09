@@ -272,15 +272,6 @@ LexicoListener.prototype.exitUsoConsultable = function(ctx) {
 };
 
 
-// Enter a parse tree produced by LexicoParser#Igualdad.
-LexicoListener.prototype.enterIgualdad = function(ctx) {
-};
-
-// Exit a parse tree produced by LexicoParser#Igualdad.
-LexicoListener.prototype.exitIgualdad = function(ctx) {
-};
-
-
 // Enter a parse tree produced by LexicoParser#SumaResta.
 LexicoListener.prototype.enterSumaResta = function(ctx) {
 };
@@ -344,12 +335,39 @@ LexicoListener.prototype.exitUnario = function(ctx) {
 };
 
 
+// Enter a parse tree produced by LexicoParser#Igual.
+LexicoListener.prototype.enterIgual = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Igual.
+LexicoListener.prototype.exitIgual = function(ctx) {
+};
+
+
 // Enter a parse tree produced by LexicoParser#Verdadero.
 LexicoListener.prototype.enterVerdadero = function(ctx) {
 };
 
 // Exit a parse tree produced by LexicoParser#Verdadero.
 LexicoListener.prototype.exitVerdadero = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#Potencia.
+LexicoListener.prototype.enterPotencia = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Potencia.
+LexicoListener.prototype.exitPotencia = function(ctx) {
+};
+
+
+// Enter a parse tree produced by LexicoParser#Diferente.
+LexicoListener.prototype.enterDiferente = function(ctx) {
+};
+
+// Exit a parse tree produced by LexicoParser#Diferente.
+LexicoListener.prototype.exitDiferente = function(ctx) {
 };
 
 

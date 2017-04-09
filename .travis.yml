@@ -10,7 +10,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - openjdk-8-jdk
+    - oracle-java8-installer
     - lib32stdc++6
     - lib32z1
 env:

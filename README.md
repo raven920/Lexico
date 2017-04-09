@@ -8,19 +8,14 @@
 
 En la actualidad, el proyecto está en una etapa temprana de desarrollo y está siendo activamente desarrollado. Para la primera versión se prevee tener la posibilidad de desarrollar algoritmos usando tipos de datos primitivos y estructuras de control básicas. A futuro se planea agregar el soporte de clases y diseño de interfaces gráficas.
 
-#### Tecnologías externas
-
-| Nombre | Descripción | Licencia |
-| ------ | --------- | -------- |
-| [Cordova] | Framework de desarrollo, permite escalabilidad a diferentes plataformas móviles | [Apache 2][CordovaL] |
-| [ReactJS] | Diseño de interfaces gráficas de modo declarativo y basado en componentes.  | [Facebook BSD][ReactJSL]+[Patents][ReactJSLP] |
-| [ OnsenUI ] | Integra ReactJS con Cordova y provee elementos de la interfaz que siguen los patrones de [Material Design](https://material.io/guidelines/) | [Apache 2][OnsenUIL] | 
-| [ React-CodeMirror] | Integra el editor [CodeMirror](https://codemirror.net/) con ReactJS. | [MIT][React-CodeMirrorL] |
-| [ANTLR4] | Generador de analizadores lexicograficos y sintácticos. | [BSD-new][Antlr4L] |
-
 ### Empaquetados / Ejecutables
 
-Debido al estado actual del desarrollo no se cuenta con una versión estable. Si se considera un *[aventurero](http://i.imgur.com/kTXI282.png)*, puede probar las versiones alpha que se construyen automáticamente a partir de este código fuente. Puede descargar la versión alpha desde la pestaña [*Releases*](https://github.com/raven920/Lexico/releases/latest).
+Debido al estado actual del desarrollo no se cuenta con una versión estable. Si se considera un [*aventurero*](http://i.imgur.com/kTXI282.png), puede probar las versiones alpha que se construyen automáticamente a partir del código fuente más reciente. Podrá descargar las versiones alfa desde la pestaña [*Releases*](https://github.com/raven920/Lexico/releases/latest).
+
+En la sección de *Releases* encontrará dos posibles sabores: 
+
+- Un APK para Android: [Como instalar un APK en su dispositivo Android.](https://www.elandroidelibre.com/2016/04/como-instalar-aplicaciones-apk-android.html)
+- Un zip que contiene lo necesario para correr Lexico en su computadora sin necesidad de un ambiente Android. Para ejecutarlo solo deberá descomprimir el zip y abrir el fichero www/index.html en su navegador web. Con este sabor no podrá acceder a funcionalidades como lectura y escritura de archivos y uso de perifericos en general.
 
 Si desea construir usted mismo el proyecto o probarlo en una computadora puede seguir las instrucciones a continuación.
 
@@ -77,8 +72,20 @@ Una vez se construya el proyecto, encontrará el APK en la ruta:
 ```
 Lexico/platforms/android/build/outputs/apk
 ```
-Este APK puede ser copiado a la memoria de su teléfono para posteriormente ser [instalado](https://www.elandroidelibre.com/2016/04/como-instalar-aplicaciones-apk-android.html).
+Este APK puede ser copiado a la memoria de su teléfono para posteriormente ser instalado.
 
+#### Tecnologías externas
+
+| Nombre | Descripción | Licencia |
+| ------ | --------- | -------- |
+| [Cordova] | Framework de desarrollo, permite escalabilidad a diferentes plataformas móviles. | [Apache 2][CordovaL] |
+| [ReactJS] | Diseño de interfaces gráficas de modo declarativo y basado en componentes.  | [Facebook BSD][ReactJSL]+[Patents][ReactJSLP] |
+| [ OnsenUI ] | Integra ReactJS con Cordova y provee elementos de la interfaz que siguen los patrones de [Material Design](https://material.io/guidelines/). | [Apache 2][OnsenUIL] | 
+| [ React-CodeMirror] | Integra el editor [CodeMirror](https://codemirror.net/) con ReactJS. | [MIT][React-CodeMirrorL] |
+| [ANTLR4] | Generador de analizadores lexicograficos y sintácticos. | [BSD-new][Antlr4L] |
+| [Babel] | Transcompilador de JavaScript. | [MIT][BabelL] |
+| [flow-runtime] | Sistema de tipado para JavaScript | [MIT][flowL] |
+ 
 
 Este proyecto forma parte del trabajo de grado llevado a cabo por Christian Delany y dirigido por el Profesor de la Universidad de Antioquia Fabián Ríos C., quien ideó y ha estado a la cabeza de la implementación de Lexico desde sus orígenes en los años ochenta. Si desea colaborar o saber más del proyecto no dude en contactarnos.
 
@@ -90,6 +97,8 @@ El código de este proyecto está cobijado por la licencia Apache-2.0.
    [ReactJS]: <https://facebook.github.io/react/>
    [React-CodeMirror]: <https://github.com/attaboy/react-codemirror>
    [ANTLR4]: <http://www.antlr.org/index.html>
+   [Babel]: <http://babeljs.io/>
+   [flow-runtime]: <https://codemix.github.io/flow-runtime/>
    
 
    [CordovaL]: <http://www.apache.org/licenses/LICENSE-2.0>
@@ -98,3 +107,5 @@ El código de este proyecto está cobijado por la licencia Apache-2.0.
    [ReactJSLP]: <https://github.com/facebook/react/blob/master/PATENTS>
    [Antlr4L]: <http://www.antlr.org/license.html>
    [React-CodeMirrorL]: <https://github.com/attaboy/react-codemirror/blob/master/LICENSE>
+   [BabelL]: <https://github.com/babel/babel/blob/master/LICENSE>
+   [flowL]: <https://github.com/codemix/flow-runtime/blob/master/LICENSE.md>

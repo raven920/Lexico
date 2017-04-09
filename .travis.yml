@@ -54,7 +54,7 @@ script:
 - monaca build android
 
 before_deploy:
-- mv platforms/android/build/outputs/apk/android-debug.apk platforms/android/build/outputs/apk/Lexico-prealfa.apk
+- mv platforms/android/build/outputs/apk/android-debug.apk platforms/android/build/outputs/apk/Lexico-v$TRAVIS_TAG.apk
 
 deploy:
   provider: releases

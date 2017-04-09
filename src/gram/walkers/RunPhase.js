@@ -175,7 +175,7 @@ RunPhase.prototype.exitMultDivMod
 RunPhase.prototype.exitPotencia = function(ctx){
     var expr2 = this.exprStack[this.exprStack.length-1].pop();
     var expr1 = this.exprStack[this.exprStack.length-1].pop();
-    this.exprStack[this.exprStack.length-1].push('('+expr1+') **'+expr2);
+    this.exprStack[this.exprStack.length-1].push('(1*('+expr1+')) **'+expr2);
 }
 
 RunPhase.prototype.exitUsoFuncion = function(ctx){

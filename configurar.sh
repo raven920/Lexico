@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+monaca reconfigure
 npm install
 cordova platform add android
 monaca plugin add cordova-plugin-file

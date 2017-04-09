@@ -1,4 +1,6 @@
-#   Lexico para Android
+# Lexico para Android
+
+[![Build Status](https://travis-ci.org/raven920/Lexico.svg?branch=master)](https://travis-ci.org/raven920/Lexico) [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/raven920/Lexico/blob/master/LICENSE)
 
 *Lexico para Android* es la implementación de un editor e intérprete del lenguaje de programación [LEXICO] en dispositivos móviles con sistema operativo Android. Lexico significa **L**enguaje **ex**perimental **i**ntroductorio a la **c**omputación con **o**bjetos, es un lenguaje de programación didáctico en español que facilita el aprendizaje y la enseñanza de la programación. 
 

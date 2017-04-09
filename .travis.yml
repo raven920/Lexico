@@ -1,9 +1,9 @@
 sudo: false
-
 language: node_js
 node_js:
-  - "node"
-
+- node
+jdk:
+- oraclejdk8
 addons:
   apt:
     sources:
@@ -11,42 +11,56 @@ addons:
     packages:
     - g++-4.8
     - oracle-java8-installer
+    - oracle-java8-set-default
     - lib32stdc++6
     - lib32z1
-env:
-  CXX=g++-4.8
-
+env: CXX=g++-4.8
 install:
-  - npm install -g cordova
-  - npm install -g monaca
-  - npm install
-  - monaca reconfigure
-
+- npm install -g cordova
+- npm install -g monaca
+- monaca reconfigure
+- cd ../../../.cordova
+- npm install autoprefixer precss babel-polyfill babel-plugin-flow-runtime babel-plugin-transform-decorators-legacy
+- cd ~/build/raven920/Lexico
+- npm install
 before_script:
-  - mkdir android-sdk-linux && cd android-sdk-linux && wget http://dl.google.com/android/repository/tools_r25.2.3-linux.zip && unzip tools_r25.2.3-linux.zip && cd ..
-  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter tools
-  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter platform-tools
-  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter build-tools-25.0.2
-  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter android-23
-  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-android-support
-  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-android-m2repository
-  - echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-google-m2repository
-  - export ANDROID_HOME=$PWD/android-sdk-linux
-  - export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/25.0.2
-
-  - cordova platform add android
-  - monaca plugin add cordova-plugin-file
-  - cd ./parche
-  - git clone https://github.com/attaboy/react-codemirror.git
-  - cd react-codemirror
-  - git checkout set_options_only_if_changed
-  - rm -rf .git
-  - cd ../..
-  - rm -rf node_modules/react-codemirror
-  - mv parche/react-codemirror node_modules/
-  - cp -rf parche/node_modules/* node_modules/
-
-
+- cd ~
+- mkdir android-sdk-linux && cd android-sdk-linux && wget http://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+  && unzip tools_r25.2.3-linux.zip && cd ..
+- echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter tools
+- echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter platform-tools
+- echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter build-tools-25.0.2
+- echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter android-25
+- echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-android-support
+- echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-android-m2repository
+- echo y | ./android-sdk-linux/tools/android update sdk --no-ui --all --filter extra-google-m2repository
+- export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+- export ANDROID_HOME=$PWD/android-sdk-linux
+- export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/25.0.2
+- cd ~/build/raven920/Lexico
+- cordova platform add android
+- monaca plugin add cordova-plugin-file
+- cd ./parche
+- git clone https://github.com/attaboy/react-codemirror.git
+- cd react-codemirror
+- git checkout set_options_only_if_changed
+- rm -rf .git
+- cd ../..
+- rm -rf node_modules/react-codemirror
+- mv parche/react-codemirror node_modules/
+- cp -rf parche/node_modules/* node_modules/
 script:
-  - monaca transpile
-  - monaca build android
+- monaca transpile
+- monaca build android
+
+before_deploy:
+- mv platforms/android/build/outputs/apk/android-debug.apk platforms/android/build/outputs/apk/Lexico-prealfa.apk
+
+deploy:
+  provider: releases
+  api_key:
+    secure: m3hrzoDa8s2qOxXvFn7h8flPyrJPycDHRGzbS4k1xN5ettW8ZyxrGB7pbKYSrQ8Ccjt2PqgvYVpn0exiDkmHK+dzGWbtb7tRGBfJSo7/MvVjprWpiHWljWuG/EqybBtQ45j76qrrw3NZ1e3HrDRyY1rsyMid1x7j54WnRAXpoUwQfTG+tOS3ZbrqHShakqKZFZpduJvXb2nb5glqBUMd+xQpf7pUm9D2kpcuaQvAwjQinZXB6iVM3xRtI9WpkvAA5TRSsmJDE69UBT3JTWWGwaC/1BCVfA5dM4FOWbn2nQf829MADzPIpCY222J8O51xZy6idHTUrgRGNWKyylKvuw9gvVWSpLvCI8hL+NX6EfpC5vRwQQoi3c5g6BCLq7ugoNg7UetgorZjYIjlZt/veQzGe+qF/xVppNaXYjZzJ8YdSPMdzSoNZTAF+gW35fYPVclGrwoL35Y5Q5a6UO/C+lWmVPg2oRz50Pa0N9Kp6E1wLJ8+cOPn7wAJeCAbV3ObVGlUyDrtVFOwwydHXTovni0ubysQNx4ZPJzIfvXbP3rd/X6Fg7QNOXtRubFsTyEbdj1omgiar/Cu/0QVDh/Rijz4lK3rq8yp/DyRLSEvtJbKTjF0Qaxa4mIxDdaSIOvi4JcZ1pxtVVQof9wUTzeJW9rHwr+tULaYwYFDT6z2KN8=
+  file: platforms/android/build/outputs/apk/Lexico-prealfa.apk
+  on:
+    repo: raven920/Lexico
+    tags: true

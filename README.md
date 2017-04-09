@@ -18,7 +18,9 @@ En la actualidad, el proyecto está en una etapa temprana de desarrollo y está 
 
 ### Empaquetados / Ejecutables
 
-Debido al estado actual del desarrollo no se cuenta con una versión estable. Si se considera un *[aventurero](http://i.imgur.com/kTXI282.png)*, puede seguir las instrucciones a continuación para construir usted mismo el software.
+Debido al estado actual del desarrollo no se cuenta con una versión estable. Si se considera un *[aventurero](http://i.imgur.com/kTXI282.png)*, puede probar las versiones alpha que se construyen automáticamente versión. Puede descargar la versión alpha desde la [pestaña *Releases*](https://github.com/raven920/Lexico/releases/latest).
+
+Si desea construir usted mismo el proyecto o probarlo en una computadora puede seguir las instrucciones a continuación.
 
 ##### Configuración del entorno de desarrollo
 

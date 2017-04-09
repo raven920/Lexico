@@ -20,9 +20,7 @@ install:
   - npm install -g cordova
   - npm install -g monaca
   - npm install
-  - cd ~/.cordova
-  - npm install webpack babel-core babel-loader babel-preset-env babel-preset-es2015 babel-preset-react babel-preset-stage-2 babel-plugin-flow-runtime babel-polyfill html-webpack-plugin
-  - cd ~/build/raven920/Lexico
+  - monaca reconfigure
 
 before_script:
   - mkdir android-sdk-linux && cd android-sdk-linux && wget http://dl.google.com/android/repository/tools_r25.2.3-linux.zip && unzip tools_r25.2.3-linux.zip && cd ..

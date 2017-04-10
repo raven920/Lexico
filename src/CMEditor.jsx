@@ -20,6 +20,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Carousel, CarouselItem, Popover} from 'react-onsenui';
 import CodeMirror from 'react-codemirror';
+var HashTable = require('./util/HashTable.js').HashTable;
+
 require('codemirror/lib/codemirror.css');
 require('codemirror/mode/lexico/lexico');
 require('codemirror/addon/edit/closebrackets');
@@ -37,7 +39,7 @@ export default class TabsEditor extends React.Component {
         this.state = {isOpen: false,
                      textoError: "Temporal"};
         this.target = null;
-        this.errorPorComponente = {};
+        this.errorPorComponente = new HashTable();
     }
 
     componentDidMount() {
@@ -48,20 +50,22 @@ export default class TabsEditor extends React.Component {
             var info = cm.lineInfo(n);
             if(info.gutterMarkers){
                 this.target = info.gutterMarkers["CodeMirror-linenumbers"];
-                this.setState({textoError: this.errorPorComponente[this.target], isOpen: true});
+                this.setState({textoError: this.errorPorComponente.get(this.target), isOpen: true});
             }
         });
     }
     componentWillReceiveProps(nextProps){
         const cm = this.cmEditor.getCodeMirror();
         if(nextProps.errors != this.props.errors){
-            var errComps = {};
+            var errComps = new HashTable();
             cm.clearGutter("CodeMirror-linenumbers");
+            var marker = null;
             for(var e of nextProps.errors){
-                var marker = this.makeMarker();
+                marker = this.makeMarker();
                 cm.setGutterMarker(e["row"], "CodeMirror-linenumbers", marker);
-                errComps[marker] = e["text"];
+                errComps.put(marker, e["text"]);
             }
+
             this.errorPorComponente = errComps;
         }
     }

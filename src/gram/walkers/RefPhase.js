@@ -88,55 +88,8 @@ RefPhase.prototype.exitBloque = function(ctx){
     this.alcanceActual = this.alcanceActual.alcanceSuperior;
 }
 
-/*
-RefPhase.prototype.enterUsoConsultable = function(ctx){
-    this.idStack.push([]);
-}
 
-RefPhase.prototype.exitUsoConsultable = function(ctx){
-    var cadenaConsultable = this.idStack.pop();
-    this.revisarAlcance(cadenaConsultable[0]);
-    //Solo revisamos el primero
-}
 
-RefPhase.prototype.exitArreglo = function(ctx){
-    var token = ctx.ID(0);
-    var variable = this.revisarAlcance(token);
-    if(variable != null && variable.tipo["dim"] != ctx.expr().length){
-        this.nuevoError(token.getSymbol(), "Dimensiones de '"+token.getText()+"' son incorrectas" );
-    }
-    this.idStack[this.idStack.length-1].push(ctx.ID(0));
-}
-
-RefPhase.prototype.exitIDFromIdOrArr = function(ctx) {
-    this.idStack[this.idStack.length-1].push(ctx.ID(0));
-};
-
-RefPhase.prototype.enterUsoArreglo
-    =   RefPhase.prototype.enterDeclaracionArreglos
-    =   RefPhase.prototype.enterDeclaracionVariasVar
-    =   function(ctx) {
-    this.idStack.push([]);
-}
-
-RefPhase.prototype.exitDeclaracionArreglos
-    =   RefPhase.prototype.exitDeclaracionVariasVar
-    =   function(ctx){
-    this.idStack.pop();
-}
-
-//FIXME
-RefPhase.prototype.enterCondVariando = function(ctx){
-    var variable = this.revisarAlcance(ctx.ID(0));
-    if( variable != null && variable.tipo["dim"] !=0){
-        this.nuevoError(ctx.ID().getSymbol(), "No use arreglos como variables");
-    }
-}*/
-/*
-
-INICIA
-
-*/
 
 RefPhase.prototype.exitConstructor = function(ctx){
     //REVISAR ALCANCE
@@ -160,6 +113,7 @@ RefPhase.prototype.exitUsoArreglo = function(ctx){
     }
     this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: ctx.expr().length, tipo: 'a', validar: vali});
 }
+
 
 RefPhase.prototype.enterCondVariando = function(ctx){
     this.idStack.push([]);
@@ -190,11 +144,21 @@ RefPhase.prototype.enterListaVar = function(ctx){
 }
 
 RefPhase.prototype.exitCopieEn
-    =   RefPhase.prototype.exitEntre
     = function(ctx){
     var listaV = this.idStack.pop();
     for(var i of listaV){
         this.revisarAlcance(i);
+    }
+}
+
+RefPhase.prototype.exitEntre = function(ctx){
+    var listaV = this.idStack.pop();
+    var variable;
+    for(var i of listaV){
+        variable = this.revisarAlcance(i);
+        if("caracter" != variable["tipo"]["nombre"]  && "cantidad" != variable["tipo"]["nombre"]){
+            this.nuevoError(i["token"].getSymbol(), "'"+i["token"].getText()+"' debe ser cantidad o caracter." );
+        }
     }
 }
 

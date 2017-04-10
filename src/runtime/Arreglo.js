@@ -22,7 +22,7 @@ import type {Type} from 'flow-runtime';
 type NumeroNatural = number;
 const NumeroNaturalType = (reify: Type<NumeroNatural>);
 NumeroNaturalType.addConstraint((input: number) => {
-  if (input < 0 || input == Infinity || isNaN(input)) {
+  if (input < 0 || !isFinite(input)) {
     return 'los índices deben ser un números naturales';
   }
 });
@@ -30,7 +30,7 @@ NumeroNaturalType.addConstraint((input: number) => {
 type Cantidad = number;
 const CantidadType = (reify: Type<Cantidad>);
 CantidadType.addConstraint((input: number) => {
-  if (input == Infinity || isNaN(input)) {
+  if (!isFinite(input)) {
     return input+ ' no es un número válido';
   }
 });
@@ -76,14 +76,14 @@ function Arreglo(arr: Array<NumeroNatural>, nombre: string, clase: Class<any>, p
     var maneja = {
         get (arr, clave: NumeroNatural) {
             if(clave >= arr.length)
-                throw "Indice fuera de rango "+ clave;
+                throw {message: "Indice fuera de rango "+ clave, name: "EJ"};
             return arr[clave]
         },
         //hay que revisar el tipo de dato
         set (arr, clave: NumeroNatural, valor) {
             tipoObjeto.assert(valor);
           if(clave >= arr.length)
-              throw "Indice fuera de rango "+ clave;
+              throw {message: "Indice fuera de rango "+ clave, name:"EJ"};
           return true
         }
     }

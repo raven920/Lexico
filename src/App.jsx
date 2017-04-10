@@ -223,7 +223,7 @@ export default class App extends React.Component {
         if (!interprete.analizarSintaxis()
             || !interprete.analizarSemantica()
             || !interprete.transformar()
-            || !interprete.ejecutar()
+            || !interprete.ejecutar(this.mostrarErrores.bind(this))
         ) {
             this.mostrarErrores(interprete.errors);
         }
@@ -258,8 +258,10 @@ export default class App extends React.Component {
             });
 
         }
+
         t[indice]["anotaciones"] = erroresLineaEd;
         t[indice]["marcadores"] = erroresResaltadoEd;
+
         this.setState({
             tabs: t
         });

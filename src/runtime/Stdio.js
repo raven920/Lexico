@@ -27,12 +27,25 @@ Stdio.muestre = function(texto, titulo){
                             callback: r}));
 }
 
-Stdio.entre = function(texto, titulo){
+Stdio.entre = function(tipo, texto, titulo){
+
     return new Promise(r =>
                        notification.prompt({
                             title: titulo||"Entre...",
                             message: texto,
-                            callback: r}));
+                            callback: r})
+    ).then(entrada => new Promise(
+        cb =>{
+            if(tipo == "cantidad"){
+                var numero = Number(entrada);
+                if(!isFinite(numero)){
+                    throw {message: "Esperaba cantidad en "+texto, name: 'EJ'}
+                }
+                cb(numero);
+            }else{
+                cb(entrada);
+            }
+        }));
 }
 
 exports.Stdio = Stdio;

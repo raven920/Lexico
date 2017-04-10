@@ -36,7 +36,7 @@ RunPhase.prototype = Object.create(LexicoListener.prototype);
 RunPhase.prototype.constructor = RunPhase;
 
 RunPhase.prototype.enterProg = function(ctx){
-    this.codigo += "window.programa = function(h){";
+    this.codigo += "window.programa = async function(h){";
     this.idn += "    ";
     this.codigo += this.idn + "var Archivo = h.Archivo;\n";
     this.codigo += this.idn + "var Escritor = h.Escritor;\n";
@@ -60,7 +60,11 @@ RunPhase.prototype.enterTarea = function(ctx){
     this.codigo += this.idn + "async function tarea()";
 }
 RunPhase.prototype.exitTarea = function(ctx){
-    this.codigo += this.idn + "tarea();\n";
+    //this.codigo += this.idn + "try{\n";
+    this.codigo += this.idn + "await tarea();\n";
+    /*this.codigo += this.idn + "}catch(e){\n";
+    this.codigo += this.idn + "    console.log(e);\n";
+    this.codigo += this.idn + "}";*/
     this.alcanceActual = this.alcanceActual.alcanceSuperior;
 }
 
@@ -309,17 +313,13 @@ RunPhase.prototype.exitEntre = function(ctx) {
         varMuestra = i["token"].text;
         var variable = this.alcanceActual.resolve(i["token"].text);
         varNom = this.nombreVar(i["token"], variable);
-        var promptIn =  "await entre('entre ";
-        var promptOut =  "')";
-        if(variable.tipo["nombre"] == "cantidad"){
-            promptIn = "parseFloat("+promptIn;
-            promptOut += ")";
-        }
+        var promptIn =  "await entre('"+variable.tipo["nombre"]+"', 'entre ";
+        var promptOut =  "');\n";
         if(i["indices"].length != 0){
             varNom += '['+i["indices"].join('][')+"]";
             varMuestra += "['+("+i["indices"].join(")+', '+(")+")+']";
         }
-        this.codigo += varNom + " = "+ promptIn + varMuestra + promptOut+";\n"
+        this.codigo += varNom + " = "+ promptIn + varMuestra + promptOut
     }
 };
 

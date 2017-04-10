@@ -102,30 +102,36 @@ InterpreteLexico.prototype.transformar = function(){
     http://stackoverflow.com/questions/19357978/indirect-eval-call-in-strict-mode
 */
 
-InterpreteLexico.prototype.ejecutar = function(){
+InterpreteLexico.prototype.ejecutar = function(onError){
     if(this.errors == null || this.errors.length != 0){
         return false;
     }
 
     var codigo = Babel.transform(this.run.codigo, { presets: ['es2015'] }).code;
     console.log(codigo);
-    try{
-        (function(){ "use strict" //El alcance ya es estricto, esto no *debería* hace nada
-            var nuevoeval = eval; //Hacemos nuestro eval con juegos de azar y mujerzuelas.
-            nuevoeval(codigo); //Magia negra
-        })();
-        window.programa(herramientas); //Pasar todo lo que se necesite por aquí.
-    }catch(err){
-        this.errors =[{
-            problema: "EJ",
-            simbolo: null,
-            linea: 1,
-            columna: 0,
-            recomendacion: err
-        }];
-        return false;
+
+    (function(){ "use strict" //El alcance ya es estricto, esto no *debería* hace nada
+        var nuevoeval = eval; //Hacemos nuestro eval con juegos de azar y mujerzuelas.
+        nuevoeval(codigo); //Magia negra
+    })();
+    var ejecute = async ()=>{
+        try{
+            await window.programa(herramientas); //Pasar todo lo que se necesite por aquí.
+        }catch(err){
+            console.log(err);
+            this.errors =[{
+                problema: "EJ",
+                simbolo: null,
+                linea: 1,
+                columna: 0,
+                recomendacion: err.message
+            }];
+            onError(this.errors);
+        }
     }
-    return true;
+    ejecute();
+
+
 }
 
 exports.InterpreteLexico = InterpreteLexico;

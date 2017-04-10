@@ -25,13 +25,18 @@ LexicoErrorListener.prototype = Object.create(antlr4.error.ErrorListener.prototy
 LexicoErrorListener.prototype.constructor = LexicoErrorListener;
 
 LexicoErrorListener.prototype.syntaxError = function(recognizer, offendingSymbol, line, column, msg, e) {
-
-    var problema = {problema: "SI", simbolo: offendingSymbol, linea: line, columna: column};
+    var tipoProblema = "SI"
+    if(offendingSymbol == null){
+        offendingSymbol = {text: msg.substr(msg.indexOf("'")+1, 1), line: line, column: column};
+        tipoProblema="LE";
+    }
+    var problema = {problema: tipoProblema, simbolo: offendingSymbol, linea: line, columna: column};
     if(e != null){
         if(e instanceof antlr4.error.NoViableAltException){
             problema['recomendacion'] = "revise llaves y paréntesis."
-        }else if(e instanceof antlr4.error.InputMismatchException){
-            problema['recomendacion'] = "no se esperaba '"+offendingSymbol.text+"'"/*+" pruebe: "+ e.getExpectedTokens().toString(recognizer.literalNames, recognizer.symbolicNames)*/;
+        }else if(e instanceof antlr4.error.InputMismatchException
+                || e instanceof antlr4.error.LexerNoViableAltException){
+            problema['recomendacion'] = "no se esperaba <"+offendingSymbol.text+">"/*+" pruebe: "+ e.getExpectedTokens().toString(recognizer.literalNames, recognizer.symbolicNames)*/;
         }else if(e instanceof antlr4.error.FailedPredicateException){
             problema['recomendacion'] = "1: Contacte al desarrollador."
         }

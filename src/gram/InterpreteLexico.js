@@ -50,8 +50,11 @@ InterpreteLexico.prototype.construirAnalizador = function(codigo){
 }
 
 InterpreteLexico.prototype.analizarSintaxis = function(){
+
     this.errorListener = new LexicoErrorListener();
     this.parser.removeErrorListeners();
+    this.lexer.removeErrorListeners();
+    this.lexer.addErrorListener(this.errorListener);
     this.parser.addErrorListener(this.errorListener);
     this.parser.buildParseTrees = true;
     this.tree = this.parser.prog();
@@ -118,7 +121,7 @@ InterpreteLexico.prototype.ejecutar = function(onError){
         try{
             await window.programa(herramientas); //Pasar todo lo que se necesite por aquí.
         }catch(err){
-            console.log(err);
+            console.error(err);
             this.errors =[{
                 problema: "EJ",
                 simbolo: null,

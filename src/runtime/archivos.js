@@ -15,7 +15,14 @@
    limitaciones establecidos en la Licencia.
 */
 
+import {
+    platform
+} from 'onsenui';
+
 function Archivo(ruta){
+    if(!platform.isAndroid()){
+        throw {message: "No se soporta uso de archivos", name: "EJ"};
+    }
     this.ruta = ruta
     this.archivo = null;
 }
@@ -75,21 +82,18 @@ Archivo.prototype.demeLector = function(){
 }
 
 function Escritor(escritor){
-    this.escritor = null;
-    if(escritor != undefined){
-        this.escritor = escritor
-    }
+    if(!escritor || escritor.constructor.name != "FileWriter")
+        throw {message: "Instancie escritor usando la clase Archivo.", name: "EJ"};
+    this.escritor = escritor;
+
 }
 
 Escritor.prototype.escriba = function(texto){
-    if(this.escritor != null){
-        this.escritor.write(" "+texto); //Por alguna razón se está comiendo un caracter
-    }else{
-        throw "El escritor no está asociado a un archivo"
-    }
+    this.escritor.write(" "+texto); //Por alguna razón se está comiendo un caracter
 }
 
-function Lector(texto){
+function Lector(texto: string){
+
     this.texto = null;
     this.lineas = null;
     if(texto != undefined){

@@ -1,0 +1,138 @@
+diff -Naur flow-viejo/packages/flow-runtime/src/errorMessages.js flow-runtime/packages/flow-runtime/src/errorMessages.js
+--- flow-viejo/packages/flow-runtime/src/errorMessages.js	2017-04-10 10:42:38.555865268 -0500
++++ flow-runtime/packages/flow-runtime/src/errorMessages.js	2017-04-10 10:50:02.429200076 -0500
+@@ -1,37 +1,37 @@
+ /* @flow */
+
+ const errorMessages = {
+-  ERR_CONSTRAINT_VIOLATION: 'violated a constraint',
+-  ERR_EXPECT_ARRAY: 'must be an Array',
+-  ERR_EXPECT_TRUE: 'must be true',
+-  ERR_EXPECT_FALSE: 'must be false',
+-  ERR_EXPECT_BOOLEAN: 'must be true or false',
+-  ERR_EXPECT_EMPTY: 'must be empty',
+-  ERR_EXPECT_EXACT_VALUE: 'must be exactly $0',
+-  ERR_EXPECT_CALLABLE: 'must be callable',
+-  ERR_EXPECT_CLASS: 'must be a Class of $0',
+-  ERR_EXPECT_FUNCTION: 'must be a function',
+-  ERR_EXPECT_GENERATOR: 'must be a generator function',
+-  ERR_EXPECT_ITERABLE: 'must be iterable',
+-  ERR_EXPECT_ARGUMENT: 'argument "$0" must be: $1',
+-  ERR_EXPECT_RETURN: 'expected return type of: $0',
+-  ERR_EXPECT_N_ARGUMENTS: 'requires $0 argument(s)',
+-  ERR_EXPECT_INSTANCEOF: 'must be an instance of $0',
+-  ERR_EXPECT_KEY_TYPE: 'keys must be: $0',
+-  ERR_EXPECT_NULL: 'must be null',
+-  ERR_EXPECT_NUMBER: 'must be a number',
+-  ERR_EXPECT_OBJECT: 'must be an object',
+-  ERR_EXPECT_PROMISE: 'must be promise of $0',
+-  ERR_EXPECT_STRING: 'must be a string',
+-  ERR_EXPECT_SYMBOL: 'must be a symbol',
+-  ERR_EXPECT_THIS: 'must be exactly this',
+-  ERR_EXPECT_VOID: 'must be undefined',
+-  ERR_INVALID_DATE: 'must be a valid date',
+-  ERR_NO_INDEXER: 'is not one of the permitted indexer types',
+-  ERR_NO_UNION: 'must be one of: $0',
+-  ERR_UNKNOWN_KEY: 'should not contain the key: "$0"'
++  ERR_CONSTRAINT_VIOLATION: 'se violó una restricción',
++  ERR_EXPECT_ARRAY: 'debe ser un Arreglo',
++  ERR_EXPECT_TRUE: 'debe ser verdadero',
++  ERR_EXPECT_FALSE: 'debe ser falso',
++  ERR_EXPECT_BOOLEAN: 'debe ser verdadero o falso',
++  ERR_EXPECT_EMPTY: 'debe estar vacío',
++  ERR_EXPECT_EXACT_VALUE: 'debe ser exactamente $0',
++  ERR_EXPECT_CALLABLE: 'debe ser llamable',
++  ERR_EXPECT_CLASS: 'debe ser una Clase de $0',
++  ERR_EXPECT_FUNCTION: 'debe ser una funcion',
++  ERR_EXPECT_GENERATOR: 'debe ser una funcion generadora',
++  ERR_EXPECT_ITERABLE: 'debe ser iterable',
++  ERR_EXPECT_ARGUMENT: 'argumento "$0" debe ser: $1',
++  ERR_EXPECT_RETURN: 'tipo de retorno esperado de: $0',
++  ERR_EXPECT_N_ARGUMENTS: 'requiere $0 argumento(s)',
++  ERR_EXPECT_INSTANCEOF: 'debe ser una instancia de $0',
++  ERR_EXPECT_KEY_TYPE: 'claves deben ser: $0',
++  ERR_EXPECT_NULL: 'debe ser nulo',
++  ERR_EXPECT_NUMBER: 'debe ser una cantidad',
++  ERR_EXPECT_OBJECT: 'debe ser un objeto',
++  ERR_EXPECT_PROMISE: 'debe ser una promesa de $0',
++  ERR_EXPECT_STRING: 'deben ser caracteres',
++  ERR_EXPECT_SYMBOL: 'debe ser un simbolo',
++  ERR_EXPECT_THIS: 'debe ser esto exactamente',
++  ERR_EXPECT_VOID: 'debe ser indefinido',
++  ERR_INVALID_DATE: 'debe ser una fecha válida',
++  ERR_NO_INDEXER: 'no es uno de los tipos de índice permitidos',
++  ERR_NO_UNION: 'debe ser uno de: $0',
++  ERR_UNKNOWN_KEY: 'no debería contener la clave "$0"'
+ };
+
+ export type ErrorKey = $Keys<typeof errorMessages>;
+
+-export default errorMessages;
+\ No hay ningún carácter de nueva línea al final del fichero
++export default errorMessages;
+diff -Naur flow-viejo/packages/flow-runtime/src/errorReporting/makeTypeError.js flow-runtime/packages/flow-runtime/src/errorReporting/makeTypeError.js
+--- flow-viejo/packages/flow-runtime/src/errorReporting/makeTypeError.js	2017-04-10 10:42:38.555865268 -0500
++++ flow-runtime/packages/flow-runtime/src/errorReporting/makeTypeError.js	2017-04-10 10:29:27.102882390 -0500
+@@ -14,14 +14,25 @@
+   const {prefix, input, context} = validation;
+   const collected = [];
+   for (const [path, message, expectedType] of validation.errors) {
+-    const expected = expectedType ? expectedType.toString() : "*";
+-    const actual = context.typeOf(resolvePath(input, path)).toString();
+-
++    var exp = expectedType ? expectedType.toString() : "*";
++    if(exp == "number"){
++        exp = "cantidad";
++    }else if(exp == "string"){
++        exp = "caracter";
++    }
++    const expected = exp;
++    var act = context.typeOf(resolvePath(input, path)).toString();
++    if(act == "number"){
++        act = "cantidad";
++    }else if(act == "string"){
++        act = "caracter";
++    }
++    const actual = act;
+     const field = stringifyPath(validation.path.concat(path));
+
+
+     collected.push(
+-      `${field} ${message}\n\nExpected: ${expected}\n\nActual: ${actual}\n`
++      `${field} ${message}\n\Se esperaba: ${expected}\n\nLlegó: ${actual}\n`
+     );
+   }
+   if (prefix) {
+diff -Naur flow-viejo/packages/flow-runtime/src/errorReporting/makeWarningMessage.js flow-runtime/packages/flow-runtime/src/errorReporting/makeWarningMessage.js
+--- flow-viejo/packages/flow-runtime/src/errorReporting/makeWarningMessage.js	2017-04-10 10:42:38.555865268 -0500
++++ flow-runtime/packages/flow-runtime/src/errorReporting/makeWarningMessage.js	2017-04-10 10:28:58.169465157 -0500
+@@ -12,14 +12,25 @@
+   const {input, context} = validation;
+   const collected = [];
+   for (const [path, message, expectedType] of validation.errors) {
+-    const expected = expectedType ? expectedType.toString() : "*";
+-    const actual = context.typeOf(resolvePath(input, path)).toString();
+-
++    var exp = expectedType ? expectedType.toString() : "*";
++    if(exp == "number"){
++        exp = "cantidad";
++    }else if(exp == "string"){
++        exp = "caracter";
++    }
++    const expected = exp;
++    var act = context.typeOf(resolvePath(input, path)).toString();
++    if(act == "number"){
++        act = "cantidad";
++    }else if(act == "string"){
++        act = "caracter";
++    }
++    const actual = act;
+     const field = stringifyPath(validation.path.concat(path));
+
+
+     collected.push(
+-      `${field} ${message}\n\nExpected: ${expected}\n\nActual: ${actual}\n`
++      `${field} ${message}\n\nSe esperaba: ${expected}\n\nLlegó: ${actual}\n`
+     );
+   }
+   return `Warning: ${collected.join(delimiter)}`;

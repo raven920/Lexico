@@ -14,13 +14,27 @@
    Véase la Licencia para consultar el texto específico relativo a los permisos y
    limitaciones establecidos en la Licencia.
 */
-const archivos = require('./archivos.js');
-const tiposPrimitivos = require('./tipos-flow.js');
-exports.caracter = tiposPrimitivos.caracter;
-exports.cantidad = tiposPrimitivos.cantidad;
-exports.Archivo = archivos.Archivo;
-exports.Escritor = archivos.Escritor;
-exports.Lector = archivos.Lector;
-exports.Arreglo = require('./Arreglo.js').Arreglo;
-exports.reglas = require('./proxy.js').reglas;
-exports.Stdio = require("./Stdio.js").Stdio;
+
+var antlr4 = require('antlr4/index');
+var LexicoListener = require('../LexicoListener.js').LexicoListener;
+
+function InclPhase(){
+    LexicoListener.call(this);
+    this.incluya = [];
+    return this;
+}
+
+InclPhase.prototype = Object.create(LexicoListener.prototype);
+InclPhase.prototype.constructor = InclPhase;
+
+InclPhase.prototype.exitIncluya = function(ctx){
+    let nombre = ctx.STRING(0).getText().trim();
+    nombre = nombre.substr(1, nombre.length-2);
+    console.log("que pasa con: "+nombre);
+    if(nombre.endsWith('.lx')){
+        console.log("se encontró un incluya!!!! "+nombre);
+        this.incluya.push(nombre);
+    }
+}
+
+exports.InclPhase = InclPhase;

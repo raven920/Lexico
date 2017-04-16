@@ -18,6 +18,9 @@
 
 import t, {reify} from 'flow-runtime';
 import type {Type} from 'flow-runtime';
+const tiposPrimitivos = require('./tipos-flow.js');
+const caracter = tiposPrimitivos.caracter;
+const cantidad = tiposPrimitivos.cantidad;
 
 type NumeroNatural = number;
 const NumeroNaturalType = (reify: Type<NumeroNatural>);
@@ -27,67 +30,51 @@ NumeroNaturalType.addConstraint((input: number) => {
   }
 });
 
-type Cantidad = number;
-const CantidadType = (reify: Type<Cantidad>);
-CantidadType.addConstraint((input: number) => {
-  if (!isFinite(input)) {
-    return input+ ' no es un número válido';
-  }
-});
-
-
 /*
     Creación de arreglo N-dimensional por Matthew Crumley,
     obtenido de: http://stackoverflow.com/a/966938
     Modificada para incluir inicialización.
 */
 
-function crearArreglo(longitud, ini) {
-
-    var arr = new Array(longitud || 0),
-        i = longitud;
-    if(arguments.length == 2 && !ini["no_crear"]){
-		for(var j = 0; j < longitud; j++){
-            arr[j] = new (Function.prototype.bind.apply(ini["clase"], [ini["clase"]].concat(ini["params"])));
-        }
-    }
-    if (arguments.length > 2) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        while(i--) arr[longitud-1 - i] = crearArreglo.apply(this, args);
-    }
-
-    return new Proxy(arr, arguments[arguments.length-1]);
+function revisarClave(arr,clave){
+    let claveNum = Number(clave);
+    NumeroNatural.assert(claveNum);
+    if(claveNum >= arr.length)
+      throw {message: "Indice fuera de rango "+ claveNum, name:"EJ"};
 }
 
-function getTipo(clase){
-    if(clase == Number){
-        return t.union(t.ref(Number), Cantidad);
+function crearArreglo(longitud, ini) {
+    var arr = new Array(longitud || 0),
+        i = longitud;
+    if(arguments.length == 3 && !ini["no_crear"]){
+		for(var j = 0; j < longitud; j++){
+            arr[j] = new ini["clase"](...ini["params"]);
+
+        }
     }
-    if(clase == String){
-        return t.union(t.ref(String),t.string());
+    if (arguments.length > 3) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        while(i--) arr[longitud-1 - i] = crearArreglo(...args);
     }
-    return t.ref(clase);
+    return new Proxy(arr, arguments[arguments.length-1]);
 }
 
 
 function Arreglo(arr: Array<NumeroNatural>, nombre: string, clase: Class<any>, params: Array, noCrear: boolean){
-    var tipoObjeto = getTipo(clase);
-    console.log("tipoobjeto: "+tipoObjeto)
+
     var maneja = {
-        get (arr, clave: NumeroNatural) {
-            if(clave >= arr.length)
-                throw {message: "Indice fuera de rango "+ clave, name: "EJ"};
+        get (arr, clave) {
+            revisarClave(arr, clave);
             return arr[clave]
         },
-        //hay que revisar el tipo de dato
-        set (arr, clave: NumeroNatural, valor) {
-            tipoObjeto.assert(valor);
-          if(clave >= arr.length)
-              throw {message: "Indice fuera de rango "+ clave, name:"EJ"};
+
+        set (arr, clave, valor) {
+            revisarClave(arr,clave);
+            arr[clave] = valor;
           return true
         }
     }
-    return crearArreglo.apply(this, arr.concat({clase: clase, params: params, no_crear: noCrear}, maneja));
+    return crearArreglo(...arr, {clase: clase, params: params, no_crear: noCrear}, maneja);
 }
 
 exports.Arreglo = Arreglo;

@@ -21,6 +21,8 @@ install:
 - npm install -g lerna
 - monaca reconfigure
 - cd ../../../.cordova
+- npm remove webpack #Se necesita webpack cuyo uglify soporte ES Harmony VER: https://github.com/mishoo/UglifyJS2/issues/448
+- npm install https://github.com/fritx/webpack.git#1.x-harmony #Solución temporal
 - npm install autoprefixer precss babel-polyfill babel-plugin-flow-runtime babel-plugin-transform-decorators-legacy
 - cd ~/build/raven920/Lexico
 - npm install

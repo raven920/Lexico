@@ -18,14 +18,17 @@
 function Simbolo(params){
     if(params != undefined){
         this.nombre = params["nombre"];
+        this.nombreVar = params["nombreVar"];
         this.tipo = params["tipo"];
         this.linea = params["linea"];
         this.columna = params["columna"];
+        this.visibilidad = params["visibilidad"];
     }else{
         this.nombre = null;
         this.tipo = null;
         this.linea = null;
         this.columna = null;
+        this.visibilidad = null;
     }
 
     this.alcance = null;

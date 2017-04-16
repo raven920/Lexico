@@ -71,6 +71,22 @@ RefPhase.prototype.enterProg = function(ctx){
     this.alcanceActual = this.globales;
 }
 
+RefPhase.prototype.enterClase = function(ctx){
+    this.alcanceActual = this.alcances.get(ctx);
+}
+
+RefPhase.prototype.exitClase = function(ctx){
+    this.alcanceActual = this.alcanceActual.alcanceSuperior;
+}
+
+RefPhase.prototype.enterDeclaracionFunc = function(ctx){
+    this.alcanceActual = this.alcances.get(ctx);
+}
+
+RefPhase.prototype.exitDeclaracionFunc = function(ctx){
+    this.alcanceActual = this.alcanceActual.alcanceSuperior;
+}
+
 RefPhase.prototype.enterTarea = function(ctx){
     this.alcanceActual = this.alcances.get(ctx);
 }
@@ -103,15 +119,15 @@ RefPhase.prototype.enterConsultaSencilla
 
 
 RefPhase.prototype.exitUsoVar = function(ctx){
-    this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: 0, tipo: 'v'});
+    this.idStack.slice(-1)[0].push({token: ctx.ID(0), dim: 0, tipo: 'v'});
 }
 
 RefPhase.prototype.exitUsoArreglo = function(ctx){
     var vali = true;
-    if(ctx.children[ctx.children.length-1].getText()=="no_validar"){
+    if(ctx.children.slice(-1)[0].getText()=="no_validar"){
         vali = false;
     }
-    this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: ctx.expr().length, tipo: 'a', validar: vali});
+    this.idStack.slice(-1)[0].push({token: ctx.ID(0), dim: ctx.expr().length, tipo: 'a', validar: vali});
 }
 
 
@@ -131,7 +147,7 @@ RefPhase.prototype.exitCondVariando = function(ctx){
 
 }
 RefPhase.prototype.exitUsoFuncion = function(ctx){
-    this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: 0, tipo: 'f'});
+    this.idStack.slice(-1)[0].push({token: ctx.ID(0), dim: 0, tipo: 'f'});
 }
 
 RefPhase.prototype.exitConsultaSencilla
@@ -139,7 +155,8 @@ RefPhase.prototype.exitConsultaSencilla
     this.revisarAlcance(this.idStack.pop().shift());
 }
 
-RefPhase.prototype.enterListaVar = function(ctx){
+RefPhase.prototype.enterParamsEntrada
+    = RefPhase.prototype.enterListaVar = function(ctx){
     this.idStack.push([]);
 }
 
@@ -163,10 +180,12 @@ RefPhase.prototype.exitEntre = function(ctx){
 }
 
 RefPhase.prototype.exitVariable = function(ctx){
-    this.idStack[this.idStack.length-1].push({token: ctx.ID(0), dim: ctx.expr().length, tipo: 'a', validar: true});
+    this.idStack.slice(-1)[0].push({token: ctx.ID(0), dim: ctx.expr().length, tipo: 'a', validar: true});
 }
 
-RefPhase.prototype.exitDeclaracionVariasVar = function(ctx){
+RefPhase.prototype.exitDeclaracionVariasVar
+    = RefPhase.prototype.exitParamsEntrada
+    = function(ctx){
     this.idStack.pop();
 }
 

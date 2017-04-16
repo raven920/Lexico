@@ -21,19 +21,36 @@ function SimboloFuncion(params){
     this.alcanceSuperior = params["alcanceSuperior"];
     this.profundidad = params["profundidad"];
     this.nombreAlcance = "funcion";
+    this.argumentos = {};
 }
 
 SimboloFuncion.prototype = Object.create(Simbolo.prototype);
 SimboloFuncion.prototype.constructor = SimboloFuncion;
-SimboloFuncion.prototype.argumentos = {};
 
 SimboloFuncion.prototype.resolve = function(nombre){
-    var s = this.argumentos[nombre];
+    /*var s = this.argumentos[nombre];
     if( s != undefined)
         return s;
     if(this.alcanceSuperior != null)
-        return this.alcanceSuperior.resolve(name);
+        return this.alcanceSuperior.resolve(nombre);
+    return null;*/
+
+    console.log("entra: "+nombre)
+    var s = this.argumentos[nombre];
+    console.log("sale: "+s)
+    if(s != undefined){
+        console.log("se encontró: "+nombre)
+        return s;}
+    if(this.alcanceSuperior != null){
+        console.log("se enviará: "+nombre)
+        return this.alcanceSuperior.resolve(nombre);}
+    console.log("no se encontró: "+nombre)
     return null;
+}
+
+SimboloFuncion.prototype.exists = function(varName){
+
+    return this.argumentos[varName] != undefined;
 }
 
 SimboloFuncion.prototype.define = function(sym){

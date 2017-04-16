@@ -217,11 +217,11 @@ export default class App extends React.Component {
         });
     }
 
-    ejecutar() {
-        var interprete = new InterpreteLexico();
-        interprete.construirAnalizador(this.state.tabs[this.state.tabIndex]["texto"]);
-        if (!interprete.analizarSintaxis()
-            || !interprete.analizarSemantica()
+    async ejecutar() {
+        var codigo = this.state.tabs[this.state.tabIndex]["texto"];
+        var interprete = new InterpreteLexico(codigo);
+
+        if (!(await interprete.analizar())
             || !interprete.transformar()
             || !interprete.ejecutar(this.mostrarErrores.bind(this))
         ) {

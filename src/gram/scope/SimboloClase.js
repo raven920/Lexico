@@ -15,17 +15,19 @@
    limitaciones establecidos en la Licencia.
 */
 
-function Alcance(nombreAlcance, alcanceSuperior, profundidad){
-    this.alcanceSuperior = alcanceSuperior;
-    this.nombreAlcance = nombreAlcance;
-    this.profundidad = profundidad;
+var Simbolo = require('./Simbolo.js').Simbolo;
+function SimboloClase(params){
+    Simbolo.call(this, params);
+    this.alcanceSuperior = params["alcanceSuperior"];
+    this.profundidad = params["profundidad"];
+    this.nombreAlcance = "clase";
     this.symbols = {};
-
 }
 
-Alcance.prototype.constructor = Alcance;
+SimboloClase.prototype = Object.create(Simbolo.prototype);
+SimboloClase.prototype.constructor = SimboloClase;
 
-Alcance.prototype.resolve = function(name){
+SimboloClase.prototype.resolve = function(name){
     console.log("entra: "+name)
     var s = this.symbols[name];
     console.log("sale: "+s)
@@ -40,24 +42,23 @@ Alcance.prototype.resolve = function(name){
     return null;
 }
 
-Alcance.prototype.define = function(sym){
+SimboloClase.prototype.define = function(sym){
     this.symbols[sym.nombre] = sym;
     sym.alcance = this;
 }
 
-Alcance.prototype.exists = function(varName){
-    return this.symbols[varName] != undefined;
+SimboloClase.prototype.toString = function(){
+    return "function<"+this.nombre+":"+this.tipo+">:"+JSON.stringify(Object.keys(this.symbols));
 }
 
-Alcance.prototype.toString = function(){
-    return this.nombreAlcance+":"+this.symbols.toString();
-}
-
-Alcance.prototype.getFuncionSuperior = function(){
-    if(this.nombreAlcance == "globales"){
-        return null;
-    }
+SimboloClase.prototype.getFuncionSuperior = function(){
     return this.alcanceSuperior.getFuncionSuperior();
 }
 
-exports.Alcance = Alcance;
+SimboloClase.prototype.exists = function(varName){
+    return this.symbols[varName] != undefined;
+}
+
+
+
+exports.SimboloClase = SimboloClase;

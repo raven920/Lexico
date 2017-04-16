@@ -71,9 +71,8 @@ module.exports = {
 
         plugins: [
           path.join(cordovaNodeModules, 'react-hot-loader', 'babel'),
-            [path.join(cordovaNodeModules, 'babel-plugin-flow-runtime'), {"assert": true,
-    "annotate": true}],
-             path.join(cordovaNodeModules, 'babel-plugin-transform-decorators-legacy')
+            path.join(cordovaNodeModules, 'babel-plugin-transform-decorators-legacy'),
+            [path.join(cordovaNodeModules, 'babel-plugin-flow-runtime'), {"assert": true, "annotate": true}]
         ]
       }
     }, {

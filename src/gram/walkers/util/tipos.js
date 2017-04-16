@@ -24,12 +24,15 @@ const clases = {
 }
 
 function declaracion(nombre,dim,clase,constructor, noCrear){
-
+    let codigo = "";
     if(clase.toLowerCase() in clases){
         clase = clases[clase.toLowerCase()];
     }
 
-    var codigo = "var "+nombre;
+    if(!nombre.startsWith("this")){
+        codigo += "let "
+    }
+    codigo += nombre;
 
     if(dim.length != 0){
         codigo += " = new Arreglo("
